@@ -26,7 +26,7 @@ apply plugin: 'war'
 
 war {
     baseName = 'webrest'
-    version = 'v001'
+    version = '0.0.1'
 }
 
 sourceCompatibility = 1.7
@@ -39,8 +39,9 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
-    runtime("com.h2database:h2")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile("org.springframework.boot:spring-boot-starter-web")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

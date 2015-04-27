@@ -1,4 +1,4 @@
-package de.moso.Filter;
+package de.moso.filter;
 
 import org.springframework.stereotype.Component;
 

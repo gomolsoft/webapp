@@ -8,7 +8,10 @@ import de.moso.factory.SensorFactory;
 import de.moso.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,9 @@ public class WebRestController {
         return repository.findAll(new Sort(Sort.Direction.ASC, "name", "serialNo"));
     }
 
+    //    @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
     @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
-    public List<Component> doDone(@PathVariable("serNo") String serialNo, @RequestBody Component comp) {
+    public List<Component> doDone(@PathVariable("serNo") String serialNo/*, @RequestBody Component comp*/) {
         final Component component = repository.findBySerialNo(serialNo);
         component.setConfigMode(ConfigMode.CONFIGURING);
         repository.save(component);
@@ -99,8 +103,8 @@ public class WebRestController {
         components.add(c);
 
         c = new Component();
-        c.setName("Bewegungsmelder");
-        c.setSerialNo("533-523-007-" + SerialNoTypifier.BEWEGUNGSENSOR.getSerialNoEnd());
+        c.setName("RF-Id");
+        c.setSerialNo("533-523-007-" + SerialNoTypifier.RFID.getSerialNoEnd());
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));

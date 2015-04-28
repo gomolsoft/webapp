@@ -20,7 +20,8 @@ public class ActorFactory {
 
         switch (type) {
             case HEIZUNGREGLER:
-                actuators.add(new Actor<Number>("Regler", ActorType.MEDIUMANALOG));
+
+                actuators.add(new Actor<Number>("Regler", ActorType.NUMERIC));
                 break;
 
             case STECKDOSE:

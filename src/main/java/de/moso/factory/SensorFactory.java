@@ -1,7 +1,6 @@
 package de.moso.factory;
 
-import de.moso.entity.Sensor;
-import de.moso.entity.SensorType;
+import de.moso.entity.*;
 import de.moso.entity.typify.SerialNoTypifier;
 import org.springframework.stereotype.Component;
 
@@ -20,35 +19,85 @@ public class SensorFactory {
         final SerialNoTypifier type = SerialNoTypifier.findBySerialNo(serial);
 
         switch (type) {
-            case DISTANCE:
-                sensors.add(new Sensor<Number>("Distanz", SensorType.NUMERIC));
-                break;
+            case DISTANCE: {
+                List<SensorProperty> properties = new ArrayList<>();
+                properties.add(new RangePropertie<Integer>(0, 255));
+                properties.add(new UnityProperty("cm"));
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-            case HUMIDITY:
-                sensors.add(new Sensor<Number>("Feuchtigkeit", SensorType.NUMERIC));
-                sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC));
+                sensors.add(new Sensor<Number>("Distanz", SensorType.NUMERIC, properties));
                 break;
+            }
 
-            case INTELIGENTLIGHTSWITCH:
-                sensors.add(new Sensor<Number>("Schalter", SensorType.NUMERIC));
-                sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC));
-                break;
+            case HUMIDITY: {
+                {
+                    List<SensorProperty> properties = new ArrayList<>();
+                    properties.add(new RangePropertie<Integer>(0, 255));
+                    properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-            case SWITCH:
-                sensors.add(new Sensor<Boolean>("Schalter", SensorType.SWITCH));
-                break;
+                    sensors.add(new Sensor<Number>("Feuchtigkeit", SensorType.NUMERIC, properties));
+                }
 
-            case TEMPERATURE:
-                sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC));
-                break;
+                {
+                    List<SensorProperty> properties = new ArrayList<>();
+                    properties.add(new RangePropertie<Integer>(0, 65000));
+                    properties.add(new UnityProperty("^C"));
+                    properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-            case BEWEGUNGSENSOR:
-                sensors.add(new Sensor<Number>("Bewegungadetektor", SensorType.SWITCH));
+                    sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                }
                 break;
+            }
 
-            case RFID:
-                sensors.add(new Sensor<String>("RFID", SensorType.RFID));
+            case INTELIGENTLIGHTSWITCH: {
+                {
+                    List<SensorProperty> properties = new ArrayList<>();
+                    properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.SEQUENCE));
+                    sensors.add(new Sensor<Number>("Intelligenter Schalter", SensorType.NUMERIC, properties));
+
+                }
+                {
+                    List<SensorProperty> properties = new ArrayList<>();
+                    properties.add(new RangePropertie<Integer>(0, 65000));
+                    properties.add(new UnityProperty("^C"));
+
+                    sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                }
                 break;
+            }
+
+            case SWITCH: {
+                List<SensorProperty> properties = new ArrayList<>();
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN));
+                sensors.add(new Sensor<Boolean>("Schalter", SensorType.SWITCH, properties));
+                break;
+            }
+
+            case TEMPERATURE: {
+                List<SensorProperty> properties = new ArrayList<>();
+                properties.add(new RangePropertie<Integer>(0, 65000));
+                properties.add(new UnityProperty("^C"));
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
+
+                sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                break;
+            }
+
+            case BEWEGUNGSENSOR: {
+                List<SensorProperty> properties = new ArrayList<>();
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN));
+
+                sensors.add(new Sensor<Number>("Bewegungadetektor", SensorType.SWITCH, properties));
+                break;
+            }
+
+            case RFID: {
+                List<SensorProperty> properties = new ArrayList<>();
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.STRING));
+
+                sensors.add(new Sensor<String>("RFID", SensorType.RFID, properties));
+                break;
+            }
 
             default:
                 return null;

@@ -118,6 +118,22 @@ public class WebRestController {
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
         components.add(c);
 
+        c = new Component();
+        c.setName("Intelligenter-Schalter");
+        c.setSerialNo("533-523-009-" + SerialNoTypifier.INTELIGENTLIGHTSWITCH.getSerialNoEnd());
+        c.setConfigMode(ConfigMode.UNCONFIGURED);
+        c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
+        c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
+        components.add(c);
+
+        c = new Component();
+        c.setName("Feuchtigkeitssensor");
+        c.setSerialNo("533-523-010-" + SerialNoTypifier.HUMIDITY.getSerialNoEnd());
+        c.setConfigMode(ConfigMode.UNCONFIGURED);
+        c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
+        c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
+        components.add(c);
+
         repository.save(components);
 
         return components;

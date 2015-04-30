@@ -39,6 +39,17 @@ public class WebRestController {
         return getDevices();
     }
 
+    @RequestMapping(value = "/reinit", method = RequestMethod.GET)
+    @Autowired
+    public List<Component> doReinitialize(final SensorFactory sensorFactory, final ActorFactory actorFactory) {
+        for (Component c : repository.findAll()) {
+            if (c.getConfigMode() == ConfigMode.CONFIGURING) {
+                c.setConfigMode(ConfigMode.UNCONFIGURED);
+                repository.save(c);
+            }
+        }
+        return getDevices();
+    }
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @Autowired

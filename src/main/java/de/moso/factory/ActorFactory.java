@@ -1,7 +1,7 @@
 package de.moso.factory;
 
 import de.moso.entity.Actor;
-import de.moso.entity.typify.ActorType;
+import de.moso.entity.ValueTypeProperty;
 import de.moso.entity.typify.SerialNoTypifier;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,11 @@ public class ActorFactory {
         switch (type) {
             case HEIZUNGREGLER:
 
-                actuators.add(new Actor<Number>("Regler", ActorType.NUMERIC));
+                actuators.add(new Actor<Number>("Regler", new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC)));
                 break;
 
             case STECKDOSE:
-                actuators.add(new Actor<Number>("Relais", ActorType.SWITCH));
+                actuators.add(new Actor<Number>("Relais", new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN)));
                 break;
 
 

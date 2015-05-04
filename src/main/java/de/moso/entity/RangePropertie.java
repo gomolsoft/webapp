@@ -3,7 +3,7 @@ package de.moso.entity;
 /**
  * Created by sandro on 28.04.15.
  */
-public class RangePropertie<T> implements SensorProperty {
+public class RangePropertie<T> implements IoTProperty {
     static final String NAME = "Intervall";
 
     private T rangeFrom;

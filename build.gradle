@@ -43,6 +43,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
 
     compile 'org.apache.commons:commons-lang3:3.3.1'
+    compile 'org.apache.commons:commons-collections4:4.0'
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 

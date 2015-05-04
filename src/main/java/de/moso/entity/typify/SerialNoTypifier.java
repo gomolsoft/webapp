@@ -11,6 +11,9 @@ public enum SerialNoTypifier {
     //Aktor
     , HEIZUNGREGLER("503"), STECKDOSE("501")
 
+    //App
+    , FORCAST_APP("A001")
+
     //Unbekannt
     , UNIDENTIFIED("XXX");
 

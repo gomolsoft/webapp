@@ -8,27 +8,21 @@ import java.util.List;
 public class Sensor<T> implements IotInterface {
     private String name;
 
-    private SensorType sensorType;
-    private List<SensorProperty> properties;
+    private List<IoTProperty> properties;
 
     public Sensor() {
     }
 
-    public Sensor(String name, SensorType sensorType, List<SensorProperty> properties) {
-        this.sensorType = sensorType;
+    public Sensor(String name, List<IoTProperty> properties) {
         this.name = name;
         this.properties = properties;
-    }
-
-    public SensorType getSensorType() {
-        return sensorType;
     }
 
     public String getName() {
         return name;
     }
 
-    public List<SensorProperty> getProperties() {
+    public List<IoTProperty> getProperties() {
         return properties;
     }
 }

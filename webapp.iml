@@ -84,5 +84,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.mongodb:mongo-java-driver:2.12.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.data:spring-data-mongodb:1.6.2.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.apache.commons:commons-lang3:3.3.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.apache.commons:commons-collections4:4.0" level="project" />
   </component>
 </module>

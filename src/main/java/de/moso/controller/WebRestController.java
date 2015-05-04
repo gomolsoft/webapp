@@ -2,14 +2,19 @@ package de.moso.controller;
 
 import de.moso.entity.Component;
 import de.moso.entity.ConfigMode;
+import de.moso.entity.Location;
 import de.moso.entity.typify.SerialNoTypifier;
 import de.moso.factory.ActorFactory;
+import de.moso.factory.AppFactory;
 import de.moso.factory.SensorFactory;
 import de.moso.repository.CustomerRepository;
+import de.moso.repository.LocationRepository;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MultiMap;
+import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sandro on 17.04.15.
@@ -26,6 +32,9 @@ import java.util.List;
 public class WebRestController {
     @Autowired
     private CustomerRepository repository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
     @RequestMapping(value = "/devices", method = RequestMethod.GET)
     public List<Component> getDevices() {
@@ -78,8 +87,10 @@ public class WebRestController {
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @Autowired
-    public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory) {
+    public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory, final AppFactory appFactory) {
         repository.deleteAll();
+
+        final MultiMap<String, List<Component>> mhm = new MultiValueMap();
 
         Component c = new Component();
         c.setName("Lichtschalter");
@@ -87,7 +98,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Korridor");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Korridor", c);
         final List<Component> components = new ArrayList<>();
         components.add(c);
 
@@ -97,7 +109,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Bad");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Bad", c);
         components.add(c);
 
         c = new Component();
@@ -106,7 +119,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Wohnzimmer");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Wohnzimmer", c);
         components.add(c);
 
         c = new Component();
@@ -115,7 +129,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Esszimmer");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Esszimmer", c);
         components.add(c);
 
         c = new Component();
@@ -124,7 +139,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Korridor");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Korridor", c);
         components.add(c);
 
         c = new Component();
@@ -133,7 +149,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Küche");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Küche", c);
         components.add(c);
 
         c = new Component();
@@ -142,7 +159,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Balkon");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Balkon", c);
         components.add(c);
 
         c = new Component();
@@ -151,7 +169,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Haustüre");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Haustüre", c);
         components.add(c);
 
         c = new Component();
@@ -160,7 +179,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Küche");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Küche", c);
         components.add(c);
 
         c = new Component();
@@ -169,7 +189,8 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Wohnzimmer");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Wohnzimmer", c);
         components.add(c);
 
         c = new Component();
@@ -178,10 +199,27 @@ public class WebRestController {
         c.setConfigMode(ConfigMode.UNCONFIGURED);
         c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
         c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
-        c.setRaum("Bad");
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
+        mhm.put("Bad", c);
+        components.add(c);
+
+        c = new Component();
+        c.setName("Wetter");
+        c.setSerialNo("533-523-011-" + SerialNoTypifier.FORCAST_APP.getSerialNoEnd());
+        c.setConfigMode(ConfigMode.UNCONFIGURED);
+        c.setSensors(sensorFactory.createFromSerial(c.getSerialNo()));
+        c.setActors(actorFactory.createFromSerial(c.getSerialNo()));
+        c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
         components.add(c);
 
         repository.save(components);
+
+        List<Location> locations = new ArrayList<>();
+        for (Map.Entry<String, Object> entrySet : mhm.entrySet()) {
+            locations.add(new Location(entrySet.getKey(), (List<Component>) entrySet.getValue()));
+        }
+
+        locationRepository.save(locations);
 
         return components;
     }

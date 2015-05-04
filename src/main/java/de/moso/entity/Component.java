@@ -19,13 +19,11 @@ public class Component {
 
     private List<Sensor> sensors;
     private List<Actor> actors;
-
-    private String raum;
+    private List<InternetData> internetDatas;
 
     public List<Sensor> getSensors() {
         return sensors;
     }
-
     public void setSensors(List<Sensor> sensors) {
         this.sensors = sensors;
     }
@@ -33,9 +31,16 @@ public class Component {
     public List<Actor> getActors() {
         return actors;
     }
-
     public void setActors(List<Actor> actors) {
         this.actors = actors;
+    }
+
+    public List<InternetData> getInternetDatas() {
+        return internetDatas;
+    }
+
+    public void setInternetDatas(List<InternetData> internetDatas) {
+        this.internetDatas = internetDatas;
     }
 
     public String getName() {
@@ -55,16 +60,9 @@ public class Component {
     public ConfigMode getConfigMode() {
         return configMode;
     }
-
     public void setConfigMode(ConfigMode configMode) {
         this.configMode = configMode;
     }
 
-    public String getRaum() {
-        return raum;
-    }
 
-    public void setRaum(String raum) {
-        this.raum = raum;
-    }
 }

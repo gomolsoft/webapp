@@ -3,7 +3,7 @@ package de.moso.entity;
 /**
  * Created by sandro on 28.04.15.
  */
-public class UnityProperty implements SensorProperty {
+public class UnityProperty implements IoTProperty {
     static final String NAME = "Einheit";
 
     private String name;

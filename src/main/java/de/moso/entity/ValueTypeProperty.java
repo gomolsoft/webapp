@@ -3,7 +3,7 @@ package de.moso.entity;
 /**
  * Created by sandro on 28.04.15.
  */
-public class ValueTypeProperty implements SensorProperty {
+public class ValueTypeProperty implements IoTProperty {
     private ValueTypePropertyType valuePropertyType;
     private String name;
 

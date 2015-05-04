@@ -20,82 +20,82 @@ public class SensorFactory {
 
         switch (type) {
             case DISTANCE: {
-                List<SensorProperty> properties = new ArrayList<>();
+                List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new RangePropertie<Integer>(0, 255));
                 properties.add(new UnityProperty("cm"));
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-                sensors.add(new Sensor<Number>("Distanz", SensorType.NUMERIC, properties));
+                sensors.add(new Sensor<Number>("Distanz", properties));
                 break;
             }
 
             case HUMIDITY: {
                 {
-                    List<SensorProperty> properties = new ArrayList<>();
+                    List<IoTProperty> properties = new ArrayList<>();
                     properties.add(new RangePropertie<Integer>(0, 255));
                     properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-                    sensors.add(new Sensor<Number>("Feuchtigkeit", SensorType.NUMERIC, properties));
+                    sensors.add(new Sensor<Number>("Feuchtigkeit", properties));
                 }
 
                 {
-                    List<SensorProperty> properties = new ArrayList<>();
+                    List<IoTProperty> properties = new ArrayList<>();
                     properties.add(new RangePropertie<Integer>(0, 65000));
                     properties.add(new UnityProperty("^C"));
                     properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-                    sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                    sensors.add(new Sensor<Number>("Temperatur", properties));
                 }
                 break;
             }
 
             case INTELIGENTLIGHTSWITCH: {
                 {
-                    List<SensorProperty> properties = new ArrayList<>();
+                    List<IoTProperty> properties = new ArrayList<>();
                     properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.SEQUENCE));
-                    sensors.add(new Sensor<Number>("Intelligenter Schalter", SensorType.NUMERIC, properties));
+                    sensors.add(new Sensor<Number>("Intelligenter Schalter", properties));
 
                 }
                 {
-                    List<SensorProperty> properties = new ArrayList<>();
+                    List<IoTProperty> properties = new ArrayList<>();
                     properties.add(new RangePropertie<Integer>(0, 65000));
                     properties.add(new UnityProperty("^C"));
 
-                    sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                    sensors.add(new Sensor<Number>("Temperatur", properties));
                 }
                 break;
             }
 
             case SWITCH: {
-                List<SensorProperty> properties = new ArrayList<>();
+                List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN));
-                sensors.add(new Sensor<Boolean>("Schalter", SensorType.SWITCH, properties));
+                sensors.add(new Sensor<Boolean>("Schalter", properties));
                 break;
             }
 
             case TEMPERATURE: {
-                List<SensorProperty> properties = new ArrayList<>();
+                List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new RangePropertie<Integer>(0, 65000));
                 properties.add(new UnityProperty("^C"));
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
 
-                sensors.add(new Sensor<Number>("Temperatur", SensorType.NUMERIC, properties));
+                sensors.add(new Sensor<Number>("Temperatur", properties));
                 break;
             }
 
             case BEWEGUNGSENSOR: {
-                List<SensorProperty> properties = new ArrayList<>();
+                List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN));
 
-                sensors.add(new Sensor<Number>("Bewegungadetektor", SensorType.SWITCH, properties));
+                sensors.add(new Sensor<Number>("Bewegungadetektor", properties));
                 break;
             }
 
             case RFID: {
-                List<SensorProperty> properties = new ArrayList<>();
+                List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.STRING));
 
-                sensors.add(new Sensor<String>("RFID", SensorType.RFID, properties));
+                sensors.add(new Sensor<String>("STRING", properties));
                 break;
             }
 

@@ -1,14 +1,16 @@
 package de.moso.controller;
 
-import de.moso.entity.Component;
-import de.moso.entity.ConfigMode;
-import de.moso.entity.Location;
+import de.moso.entity.*;
+import de.moso.entity.logic.LogicBrick;
+import de.moso.entity.logic.LogicCondition;
+import de.moso.entity.logic.LogicNumericCondition;
 import de.moso.entity.typify.SerialNoTypifier;
 import de.moso.factory.ActorFactory;
 import de.moso.factory.AppFactory;
 import de.moso.factory.SensorFactory;
 import de.moso.repository.CustomerRepository;
 import de.moso.repository.LocationRepository;
+import de.moso.repository.LogicRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.map.MultiValueMap;
@@ -35,6 +37,9 @@ public class WebRestController {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private LogicRepository logicRepository;
 
     @RequestMapping(value = "/devices", method = RequestMethod.GET)
     public List<Component> getDevices() {
@@ -88,6 +93,10 @@ public class WebRestController {
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @Autowired
     public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory, final AppFactory appFactory) {
+        Actor actor;
+        Sensor sensor;
+
+
         repository.deleteAll();
 
         final MultiMap<String, List<Component>> mhm = new MultiValueMap();
@@ -102,6 +111,7 @@ public class WebRestController {
         mhm.put("Korridor", c);
         final List<Component> components = new ArrayList<>();
         components.add(c);
+        sensor = c.getSensors().get(0);
 
         c = new Component();
         c.setName("Fenster/Tür-Sensor");
@@ -132,6 +142,8 @@ public class WebRestController {
         c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
         mhm.put("Esszimmer", c);
         components.add(c);
+        actor = c.getActors().get(0);
+
 
         c = new Component();
         c.setName("Bewegungsmelder");
@@ -220,8 +232,11 @@ public class WebRestController {
         }
 
         locationRepository.save(locations);
-
+        LogicTester(sensor, actor, LogicNumericCondition.GE /* TODO: <val>, <aktuator> */);
         return components;
     }
 
+    private void LogicTester(Sensor sensor, Actor actor, LogicCondition logicCondition) {
+        logicRepository.save(new LogicBrick(sensor, actor, logicCondition));
+    }
 }

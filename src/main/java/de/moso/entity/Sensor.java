@@ -1,11 +1,12 @@
 package de.moso.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by sandro on 26.04.15.
  */
-public class Sensor<T> implements IotInterface {
+public class Sensor<T> implements IotInterface, Serializable {
     private String name;
 
     private List<IoTProperty> properties;

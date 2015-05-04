@@ -23,11 +23,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea/artifacts" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea/copyright" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea/libraries" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
-      <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -87,5 +83,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.springframework.boot:spring-boot-starter-data-mongodb:1.2.3.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.mongodb:mongo-java-driver:2.12.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.data:spring-data-mongodb:1.6.2.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: org.apache.commons:commons-lang3:3.3.1" level="project" />
   </component>
 </module>

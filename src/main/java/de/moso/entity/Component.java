@@ -20,6 +20,7 @@ public class Component {
     private List<Sensor> sensors;
     private List<Actor> actors;
 
+    private String raum;
 
     public List<Sensor> getSensors() {
         return sensors;
@@ -57,5 +58,13 @@ public class Component {
 
     public void setConfigMode(ConfigMode configMode) {
         this.configMode = configMode;
+    }
+
+    public String getRaum() {
+        return raum;
+    }
+
+    public void setRaum(String raum) {
+        this.raum = raum;
     }
 }

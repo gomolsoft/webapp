@@ -69,6 +69,12 @@ public class DeviceRestController {
         return getDevices();
     }
 
+    @RequestMapping(value = "/{serialId}", method = RequestMethod.GET)
+    public Component getSerialsByRoom(@PathVariable("serialId") String serialId) {
+        final Component component = componentRepository.findBySerialNo(serialId);
+        return component;
+    }
+
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
     public Number unreadMessages() {
         return new Integer(9);

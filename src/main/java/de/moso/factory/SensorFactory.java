@@ -96,7 +96,7 @@ public class SensorFactory {
                 List<IoTProperty> properties = new ArrayList<>();
                 properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.STRING));
 
-                sensors.add(new Sensor<String>("STRING", properties));
+                sensors.add(new Sensor<String>("RF-ID-Schlüssel", properties));
                 break;
             }
 

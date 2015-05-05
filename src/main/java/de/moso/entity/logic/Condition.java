@@ -11,16 +11,16 @@ public class Condition<T extends Object> {
     private IotInterface iotInterface;
 
     private T conditionValue;
-    private LogicCondition conditions;
+    private LogicCondition condition;
 
     public Condition() {
     }
 
-    public Condition(Component component, IotInterface iotInterface, T conditionValue, LogicCondition conditions) {
+    public Condition(Component component, IotInterface iotInterface, T conditionValue, LogicCondition condition) {
         this.component = component;
         this.iotInterface = iotInterface;
         this.conditionValue = conditionValue;
-        this.conditions = conditions;
+        this.condition = condition;
     }
 
 }

@@ -9,7 +9,7 @@ import de.moso.entity.typify.SerialNoTypifier;
 import de.moso.factory.ActorFactory;
 import de.moso.factory.AppFactory;
 import de.moso.factory.SensorFactory;
-import de.moso.repository.CustomerRepository;
+import de.moso.repository.ComponentRepository;
 import de.moso.repository.LocationRepository;
 import de.moso.repository.LogicRepository;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,9 +32,9 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/device")
-public class WebRestController {
+public class DeviceRestController {
     @Autowired
-    private CustomerRepository repository;
+    private ComponentRepository componentRepository;
 
 
     @Autowired
@@ -45,25 +45,25 @@ public class WebRestController {
 
     @RequestMapping(value = "/devices", method = RequestMethod.GET)
     public List<Component> getDevices() {
-        return repository.findAll(new Sort(Sort.Direction.ASC, "name", "serialNo"));
+        return componentRepository.findAll(new Sort(Sort.Direction.ASC, "name", "serialNo"));
     }
 
     //    @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
     @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
     public List<Component> doDone(@PathVariable("serNo") String serialNo/*, @RequestBody Component comp*/) {
-        final Component component = repository.findBySerialNo(serialNo);
+        final Component component = componentRepository.findBySerialNo(serialNo);
         component.setConfigMode(ConfigMode.CONFIGURING);
-        repository.save(component);
+        componentRepository.save(component);
         return getDevices();
     }
 
     @RequestMapping(value = "/reinit", method = RequestMethod.GET)
     @Autowired
     public List<Component> doReinitialize(final SensorFactory sensorFactory, final ActorFactory actorFactory) {
-        for (Component c : repository.findAll()) {
+        for (Component c : componentRepository.findAll()) {
             if (c.getConfigMode() == ConfigMode.CONFIGURING) {
                 c.setConfigMode(ConfigMode.UNCONFIGURED);
-                repository.save(c);
+                componentRepository.save(c);
             }
         }
         return getDevices();
@@ -90,8 +90,6 @@ public class WebRestController {
         return filtComponents;
     }
 
-
-
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @Autowired
     public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory, final AppFactory appFactory) {
@@ -102,7 +100,7 @@ public class WebRestController {
         Component sensorComponent;
 
 
-        repository.deleteAll();
+        componentRepository.deleteAll();
         logicRepository.deleteAll();
         locationRepository.deleteAll();
 
@@ -237,7 +235,7 @@ public class WebRestController {
         c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
         components.add(c);
 
-        repository.save(components);
+        componentRepository.save(components);
 
         List<Location> locations = new ArrayList<>();
         for (Map.Entry<String, Object> entrySet : mhm.entrySet()) {

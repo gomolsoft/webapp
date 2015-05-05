@@ -3,7 +3,7 @@
  */
 package de.moso;
 
-import de.moso.repository.CustomerRepository;
+import de.moso.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
 public class App {
     @Autowired
-    private CustomerRepository repository;
+    private ComponentRepository repository;
 
     /*
         @Autowired

@@ -21,5 +21,20 @@ public class LogicBrick {
     public LogicBrick() {
     }
 
+    public Condition getInput() {
+        return input;
+    }
+
+    public void setInput(Condition input) {
+        this.input = input;
+    }
+
+    public Activation getOutput() {
+        return output;
+    }
+
+    public void setOutput(Activation output) {
+        this.output = output;
+    }
 }
 

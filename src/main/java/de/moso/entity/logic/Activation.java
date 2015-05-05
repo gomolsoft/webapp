@@ -21,4 +21,27 @@ public class Activation<T extends Object> {
         this.conditionValue = conditionValue;
     }
 
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
+
+    public IotInterface getIotInterface() {
+        return iotInterface;
+    }
+
+    public void setIotInterface(IotInterface iotInterface) {
+        this.iotInterface = iotInterface;
+    }
+
+    public T getConditionValue() {
+        return conditionValue;
+    }
+
+    public void setConditionValue(T conditionValue) {
+        this.conditionValue = conditionValue;
+    }
 }

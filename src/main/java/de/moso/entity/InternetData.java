@@ -8,7 +8,7 @@ import java.util.List;
 
 @InputElement
 @OutputElement
-public class InternetData<T> implements IotInterface<T> {
+public class InternetData<T> implements IotInterface {
     private String name;
 
     private List<IoTProperty> appPropertie;
@@ -19,4 +19,19 @@ public class InternetData<T> implements IotInterface<T> {
         this.appPropertie = appPropertie;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<IoTProperty> getAppPropertie() {
+        return appPropertie;
+    }
+
+    public void setAppPropertie(List<IoTProperty> appPropertie) {
+        this.appPropertie = appPropertie;
+    }
 }

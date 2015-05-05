@@ -33,7 +33,7 @@ public class LocationRestController {
     }
 
     @RequestMapping(value = "/device/{serialNo}", method = RequestMethod.GET)
-    public Location getBySerialNo(@PathVariable("serialno") String serialNo) {
+    public Location getBySerialNo(@PathVariable("serialNo") String serialNo) {
         final Location location = locationRepository.findBySerialNo(serialNo);
         return location;
     }

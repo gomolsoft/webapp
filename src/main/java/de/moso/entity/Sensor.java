@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by sandro on 26.04.15.
  */
+@InputElement
 public class Sensor<T> implements IotInterface, Serializable {
     private String name;
 

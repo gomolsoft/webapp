@@ -1,8 +1,9 @@
 package de.moso.controller;
 
 import de.moso.entity.*;
+import de.moso.entity.logic.Activation;
+import de.moso.entity.logic.Condition;
 import de.moso.entity.logic.LogicBrick;
-import de.moso.entity.logic.LogicCondition;
 import de.moso.entity.logic.LogicNumericCondition;
 import de.moso.entity.typify.SerialNoTypifier;
 import de.moso.factory.ActorFactory;
@@ -34,6 +35,7 @@ import java.util.Map;
 public class WebRestController {
     @Autowired
     private CustomerRepository repository;
+
 
     @Autowired
     private LocationRepository locationRepository;
@@ -94,10 +96,15 @@ public class WebRestController {
     @Autowired
     public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory, final AppFactory appFactory) {
         Actor actor;
+        Component actorComponent;
+
         Sensor sensor;
+        Component sensorComponent;
 
 
         repository.deleteAll();
+        logicRepository.deleteAll();
+        locationRepository.deleteAll();
 
         final MultiMap<String, List<Component>> mhm = new MultiValueMap();
 
@@ -111,7 +118,7 @@ public class WebRestController {
         mhm.put("Korridor", c);
         final List<Component> components = new ArrayList<>();
         components.add(c);
-        sensor = c.getSensors().get(0);
+
 
         c = new Component();
         c.setName("Fenster/Tür-Sensor");
@@ -133,6 +140,7 @@ public class WebRestController {
         mhm.put("Wohnzimmer", c);
         components.add(c);
 
+
         c = new Component();
         c.setName("Steckdose");
         c.setSerialNo("453-923-003-" + SerialNoTypifier.STECKDOSE.getSerialNoEnd());
@@ -142,7 +150,9 @@ public class WebRestController {
         c.setInternetDatas(appFactory.createFromApiKey(c.getSerialNo()));
         mhm.put("Esszimmer", c);
         components.add(c);
+
         actor = c.getActors().get(0);
+        actorComponent = c;
 
 
         c = new Component();
@@ -215,6 +225,9 @@ public class WebRestController {
         mhm.put("Bad", c);
         components.add(c);
 
+        sensor = c.getSensors().get(0);
+        sensorComponent = c;
+
         c = new Component();
         c.setName("Wetter");
         c.setSerialNo("533-523-011-" + SerialNoTypifier.FORCAST_APP.getSerialNoEnd());
@@ -232,11 +245,13 @@ public class WebRestController {
         }
 
         locationRepository.save(locations);
-        LogicTester(sensor, actor, LogicNumericCondition.GE /* TODO: <val>, <aktuator> */);
-        return components;
-    }
 
-    private void LogicTester(Sensor sensor, Actor actor, LogicCondition logicCondition) {
-        logicRepository.save(new LogicBrick(sensor, actor, logicCondition));
+        Condition input = new Condition(sensorComponent, sensor, 20, LogicNumericCondition.LT);
+        Activation output = new Activation(actorComponent, actor, true);
+
+        LogicBrick temperaturRegler = new LogicBrick(input, output);
+        logicRepository.save(temperaturRegler);
+
+        return components;
     }
 }

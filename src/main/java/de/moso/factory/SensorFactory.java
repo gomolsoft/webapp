@@ -59,6 +59,7 @@ public class SensorFactory {
                 {
                     List<IoTProperty> properties = new ArrayList<>();
                     properties.add(new RangePropertie<Integer>(0, 65000));
+                    properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
                     properties.add(new UnityProperty("^C"));
 
                     sensors.add(new Sensor<Number>("Temperatur", properties));
@@ -101,8 +102,6 @@ public class SensorFactory {
 
             default:
                 return null;
-            //throw new SensorConfigurationException("No Sensor-Type found for Serial No:"+serial);
-            //throw new SensorConfigurationException("No Sensor-Type found for Serial No:"+serial);
         }
         return sensors;
     }

@@ -5,7 +5,10 @@ import java.util.List;
 /**
  * Created by sandro on 04.05.15.
  */
-public class InternetData<T> implements IotInterface {
+
+@InputElement
+@OutputElement
+public class InternetData<T> implements IotInterface<T> {
     private String name;
 
     private List<IoTProperty> appPropertie;

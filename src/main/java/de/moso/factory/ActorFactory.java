@@ -1,6 +1,7 @@
 package de.moso.factory;
 
 import de.moso.entity.Actor;
+import de.moso.entity.IoTProperty;
 import de.moso.entity.ValueTypeProperty;
 import de.moso.entity.typify.SerialNoTypifier;
 import org.springframework.stereotype.Component;
@@ -19,19 +20,24 @@ public class ActorFactory {
         final SerialNoTypifier type = SerialNoTypifier.findBySerialNo(serial);
 
         switch (type) {
-            case HEIZUNGREGLER:
+            case HEIZUNGREGLER: {
+                List<IoTProperty> properties = new ArrayList<>();
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC));
+                actuators.add(new Actor<Number>("Regler", properties));
 
-                actuators.add(new Actor<Number>("Regler", new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.NUMERIC)));
                 break;
+            }
 
-            case STECKDOSE:
-                actuators.add(new Actor<Number>("Relais", new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN)));
+            case STECKDOSE: {
+                List<IoTProperty> properties = new ArrayList<>();
+                properties.add(new ValueTypeProperty(ValueTypeProperty.ValueTypePropertyType.BOOLEAN));
+                actuators.add(new Actor<Number>("Relais", properties));
+
                 break;
-
+            }
 
             default:
                 return null;
-            //throw new SensorConfigurationException("No Sensor-Type found for Serial No:"+serial);
         }
         return actuators;
     }

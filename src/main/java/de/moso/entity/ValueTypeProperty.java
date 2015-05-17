@@ -4,17 +4,17 @@ package de.moso.entity;
  * Created by sandro on 28.04.15.
  */
 public class ValueTypeProperty implements IoTProperty {
+    final String VALUEPROPERTY = "VALUEPROPERTY";
+
     private ValueTypePropertyType valuePropertyType;
-    private String name;
+    private String name = VALUEPROPERTY;
 
     public ValueTypeProperty() {
         valuePropertyType = ValueTypePropertyType.NUMERIC;
-        name = valuePropertyType.name();
     }
 
     public ValueTypeProperty(final ValueTypePropertyType valuePropertyType) {
         this.valuePropertyType = valuePropertyType;
-        name = valuePropertyType.name();
     }
 
     @Override
@@ -22,9 +22,12 @@ public class ValueTypeProperty implements IoTProperty {
         return name;
     }
 
-    public void setName(final String name) {
-        this.valuePropertyType = ValueTypePropertyType.valueOf(name);
-        this.name = valuePropertyType.name();
+    public ValueTypePropertyType getValuePropertyType() {
+        return valuePropertyType;
+    }
+
+    public void setValuePropertyType(ValueTypePropertyType valuePropertyType) {
+        this.valuePropertyType = valuePropertyType;
     }
 
     public enum ValueTypePropertyType {

@@ -1,5 +1,6 @@
 package de.moso.entity;
 
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,4 +28,6 @@ public class Sensor<T> implements IotInterface, Serializable {
     public List<IoTProperty> getProperties() {
         return properties;
     }
+
+
 }

@@ -1,5 +1,6 @@
 package de.moso.entity;
 
+
 import java.util.List;
 
 /**
@@ -34,4 +35,6 @@ public class InternetData<T> implements IotInterface {
     public void setAppPropertie(List<IoTProperty> appPropertie) {
         this.appPropertie = appPropertie;
     }
+
+
 }

@@ -11,6 +11,8 @@ buildscript {
     }
 }
 
+apply plugin: 'scala'
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -34,6 +36,9 @@ targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://repo.akka.io/snapshots/"
+    }
 }
 
 
@@ -45,11 +50,21 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.1'
     compile 'org.apache.commons:commons-collections4:4.0'
 
+    compile 'org.scala-lang:scala-library:2.11.6'
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+
+dependencies {
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4-SNAPSHOT'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.6'
+}
 
 eclipse {
     classpath {

@@ -5,20 +5,18 @@ package de.moso;
 
 import de.moso.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
-public class App {
+//@SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
+public class myApp {
     @Autowired
     private ComponentRepository repository;
 
     /*
         @Autowired
         private LocationRepository locationRepository;
-    */
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
 
+    public static void main(String[] args) {
+        //SpringApplication.run(myApp.class, args);
+    }
+ */
 }

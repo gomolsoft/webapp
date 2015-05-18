@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/location")
+@RequestMapping("/location/old")
 public class LocationRestController {
     @Autowired
     private ComponentRepository componentRepository;

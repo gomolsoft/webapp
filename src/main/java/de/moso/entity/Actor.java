@@ -1,5 +1,6 @@
 package de.moso.entity;
 
+
 import java.util.List;
 
 /**

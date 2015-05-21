@@ -33,6 +33,7 @@ case class SensorModule(@BeanProperty var serialNo: String,
                          ) extends Module {
   @Id
   @BeanProperty var id: java.lang.String = _
+
   @BeanProperty var properties: IoTPropertyBase = _
   @BeanProperty var tags: java.util.List[Tag] = _
 

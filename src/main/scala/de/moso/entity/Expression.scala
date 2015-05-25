@@ -31,30 +31,27 @@ trait LogicEspression {
   def and(expression: LogicEspression): LogicEspression
 
   def or(expression: LogicEspression): LogicEspression
+
+  def run()
 }
 
 class LogicEspressionBlock(logicOperator: LogicOperator) extends LogicEspression {
-  def and(expression: LogicEspression): LogicEspression
-
-  :
-  {
-
+  def and(expression: LogicEspression): LogicEspression = {
+    null
   }
 
-  def or(expression: LogicEspression): LogicEspression
-
-  :
-  {
+  def or(expression: LogicEspression): LogicEspression = {
     null
   }
 
 }
 
 class LogicOperator[M: ModuleTypes] {
-  def >(operator: LogicOperator[M]): LogicOperator[M]
+  def >(operator: LogicOperator[M]): LogicOperator[M] = ???
 
-  def <(operator: LogicOperator[M]): LogicOperator[M]
 
-  def ==(operator: LogicOperator[M]): LogicOperator[M]
+  def <(operator: LogicOperator[M]): LogicOperator[M] = ???
+
+  def ==(operator: LogicOperator[M]): LogicOperator[M] = ???
 }
 

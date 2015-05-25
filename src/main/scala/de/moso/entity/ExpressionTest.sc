@@ -6,8 +6,7 @@ val loA = new LogicAnalyzer[Int](mi1, <, mi2)
 val loA2 = new LogicAnalyzer[Int](mi1, >, mi2)
 val lb = new LogicBox[Int]()
 
-//val b = new ModuleBool(true);
-//
+//case object eq extends LogicOperator
 
 sealed trait LogicOperator
 
@@ -17,24 +16,17 @@ sealed trait LogicOperator
 
 trait ModuleTypes[T] {
   def value: T
-
   def <(moduleType: ModuleTypes[T]): Boolean
-
   def >(moduleType: ModuleTypes[T]): Boolean
-
 }
 
 case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber] {
   override def <(moduleType: ModuleTypes[ScalaNumber]): Boolean = this.value.doubleValue() < value.doubleValue()
-
   override def >(moduleType: ModuleTypes[ScalaNumber]): Boolean = this.value.doubleValue() > value.doubleValue()
 }
 
-//case object eq extends LogicOperator
-
 case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean] {
   override def <(moduleType: ModuleTypes[Boolean]): Boolean = this.value < value
-
   override def >(moduleType: ModuleTypes[Boolean]): Boolean = this.value > value
 }
 
@@ -44,7 +36,6 @@ case class ModuleInt(var value: Int) extends ModuleTypes[Int] {
   }
 
   override def <(moduleType: ModuleTypes[Int]): Boolean = value < moduleType.value
-
   override def >(moduleType: ModuleTypes[Int]): Boolean = value > moduleType.value
 }
 
@@ -54,7 +45,6 @@ case class ModuleDouble(var value: Double) extends ModuleTypes[Double] {
   }
 
   override def <(moduleType: ModuleTypes[Double]): Boolean = value < moduleType.value
-
   override def >(moduleType: ModuleTypes[Double]): Boolean = value > moduleType.value
 }
 
@@ -77,12 +67,11 @@ class LogicBox[T] {
     expLeft.analyze | exprRight.analyze
   }
 }
-
 case object < extends LogicOperator
+
+case object > extends LogicOperator
 
 loA.analyze
 loA2.analyze
-
-case object > extends LogicOperator
 
 lb.or(loA, loA2)

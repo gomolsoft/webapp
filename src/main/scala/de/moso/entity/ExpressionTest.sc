@@ -1,6 +1,15 @@
-package de.moso.entity
-
 import scala.math.ScalaNumber
+
+val mi1 = ModuleInt(3)
+val mi2 = ModuleInt(5)
+val loA = new LogicAnalyzer[Int](mi1, <, mi2)
+val loA2 = new LogicAnalyzer[Int](mi1, >, mi2)
+val lb = new LogicBox[Int]()
+
+//val b = new ModuleBool(true);
+//
+
+sealed trait LogicOperator
 
 /**
  * Created by sandro on 19.05.15.
@@ -20,6 +29,8 @@ case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber]
 
   override def >(moduleType: ModuleTypes[ScalaNumber]): Boolean = this.value.doubleValue() > value.doubleValue()
 }
+
+//case object eq extends LogicOperator
 
 case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean] {
   override def <(moduleType: ModuleTypes[Boolean]): Boolean = this.value < value
@@ -47,18 +58,6 @@ case class ModuleDouble(var value: Double) extends ModuleTypes[Double] {
   override def >(moduleType: ModuleTypes[Double]): Boolean = value > moduleType.value
 }
 
-//val b = new ModuleBool(true);
-//
-
-
-sealed trait LogicOperator
-
-case object < extends LogicOperator
-
-case object > extends LogicOperator
-
-//case object eq extends LogicOperator
-
 class LogicAnalyzer[T](valueExpressionLeft: ModuleTypes[T], logicOperator: LogicOperator, valueExpressionRight: ModuleTypes[T]) {
   def analyze: Boolean = {
     logicOperator match {
@@ -74,8 +73,16 @@ class LogicBox[T] {
     expLeft.analyze & exprRight.analyze
   }
 
-  def or(expLeft: LogicAnalyzer, exprRight: LogicAnalyzer): Boolean = {
+  def or(expLeft: LogicAnalyzer[T], exprRight: LogicAnalyzer[T]): Boolean = {
     expLeft.analyze | exprRight.analyze
   }
 }
 
+case object < extends LogicOperator
+
+loA.analyze
+loA2.analyze
+
+case object > extends LogicOperator
+
+lb.or(loA, loA2)

@@ -1,5 +1,7 @@
 package de.moso.entity
 
+import java.time._
+
 import scala.math.ScalaNumber
 
 /**
@@ -16,12 +18,15 @@ trait ModuleTypes[T] {
     (logicOperator, moduleTypes1, moduleTypes2) match {
       case ('>', b1:Boolean, b2:Boolean) => b1 > b2
       case ('>', n1:Number, n2:Number)   => n1.doubleValue() > n2.doubleValue()
+      case ('>', d1:LocalDate, d2:LocalDate)   => d1.compareTo(d2) > 0
 
       case ('<', b1:Boolean, b2:Boolean) => b1 < b2
       case ('<', n1:Number, n2:Number)   => n1.doubleValue() < n2.doubleValue()
+      case ('<', d1:LocalDate, d2:LocalDate)   => d1.compareTo(d2) < 0
 
       case ('=', b1:Boolean, b2:Boolean) => b1 == b2
       case ('=', n1:Number, n2:Number)   => n1.doubleValue() == n2.doubleValue()
+      case ('=', d1:LocalDate, d2:LocalDate)   => d1.compareTo(d2) == 0
 
       case _ => false
     }
@@ -33,6 +38,7 @@ trait ModuleTypes[T] {
 
 }
 
+case class ModuleDate(var value: LocalDate) extends ModuleTypes[LocalDate]
 case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber]
 case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean]
 
@@ -62,16 +68,14 @@ class LogicAnalyzer[+T](valueExpressionLeft: ModuleTypes[T], logicOperator: Logi
 }
 
 class LogicBox(expLeft: Logic, exprRight: Logic) {
-
-  def and: Logic with Any = {
+  def and: Logic with AnyRef = {
     new Logic {
-      override def analyze: Boolean = expLeft.analyze & exprRight.analyze
+      override def analyze = expLeft.analyze & exprRight.analyze
     }
   }
-
-  def or: Logic with Any = {
+  def or: Logic with AnyRef = {
     new Logic {
-      override def analyze: Boolean = expLeft.analyze | exprRight.analyze
+      override def analyze = expLeft.analyze | exprRight.analyze
     }
   }
 }

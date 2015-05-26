@@ -47,6 +47,11 @@ class LocationController {
     val s = new SensorModule("1-4711", "Temperatur")
     s.addPropertie("Temperatur", "RangeMin", "1")
     s.addPropertie("Temperatur", "RangeMax", "99")
+    s.addPropertie("Temperatur", "Type", "Float")
+
+    s.addPropertie("Luftdruck", "RangeMin", "1")
+    s.addPropertie("Luftdruck", "RangeMax", "99")
+    s.addPropertie("Luftdruck", "Type", "Float")
 
     s.addTags(Tag("Test"))
     s.addTags(Tag("Temperatur"))

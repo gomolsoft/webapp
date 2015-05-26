@@ -20,8 +20,8 @@ trait ModuleTypes[T] {
       case ('<', b1:Boolean, b2:Boolean) => b1 < b2
       case ('<', n1:Number, n2:Number)   => n1.doubleValue() < n2.doubleValue()
 
-      case ('=', b1:Boolean, b2:Boolean) => b1 eq b2
-      case ('=', n1:Number, n2:Number)   => n1.doubleValue() eq n2.doubleValue()
+      case ('=', b1:Boolean, b2:Boolean) => b1 == b2
+      case ('=', n1:Number, n2:Number)   => n1.doubleValue() == n2.doubleValue()
 
       case _ => false
     }
@@ -33,41 +33,45 @@ trait ModuleTypes[T] {
 
 }
 
-case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber] {
-}
-
-case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean] {
-}
+case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber]
+case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean]
 
 case class ModuleInt(var value: Int) extends ModuleTypes[Int] {
   implicit def intToNumb(moduleInt: ModuleInt): ModuleNumber = {
     ModuleNumber(BigInt(moduleInt.value))
   }
 }
-
 case class ModuleDouble(var value: Double) extends ModuleTypes[Double] {
   implicit def floatToNumb(moduleFloat: ModuleDouble): ModuleNumber = {
     ModuleNumber(BigDecimal(moduleFloat.value))
   }
 }
 
-class LogicAnalyzer[T](valueExpressionLeft: ModuleTypes[T], logicOperator: LogicOperator, valueExpressionRight: ModuleTypes[T]) {
+trait Logic {
+  def analyze: Boolean
+}
+
+class LogicAnalyzer[+T](valueExpressionLeft: ModuleTypes[T], logicOperator: LogicOperator, valueExpressionRight: ModuleTypes[T]) extends Logic {
   def analyze: Boolean = {
     logicOperator match {
-      case < => valueExpressionLeft < valueExpressionRight
-      case > => valueExpressionLeft > valueExpressionRight
+      case <  => valueExpressionLeft < valueExpressionRight
+      case >  => valueExpressionLeft > valueExpressionRight
       case eq => valueExpressionLeft eq valueExpressionRight
     }
   }
 }
 
-class LogicBox[T] {
-  def and(expLeft: LogicAnalyzer[T], exprRight: LogicAnalyzer[T]): Boolean = {
-    expLeft.analyze & exprRight.analyze
+class LogicBox(expLeft: Logic, exprRight: Logic) {
+
+  def and: Logic with Any = {
+    new Logic {
+      override def analyze: Boolean = expLeft.analyze & exprRight.analyze
+    }
   }
 
-  def or(expLeft: LogicAnalyzer[T], exprRight: LogicAnalyzer[T]): Boolean = {
-    expLeft.analyze | exprRight.analyze
+  def or: Logic with Any = {
+    new Logic {
+      override def analyze: Boolean = expLeft.analyze | exprRight.analyze
+    }
   }
 }
-

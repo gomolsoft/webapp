@@ -45,13 +45,18 @@ class LocationController {
   def test() = {
 
     val s = new SensorModule("1-4711", "Temperatur")
-    s.addPropertie("Temperatur", "RangeMin", "1")
-    s.addPropertie("Temperatur", "RangeMax", "99")
-    s.addPropertie("Temperatur", "Type", "Float")
 
-    s.addPropertie("Luftdruck", "RangeMin", "1")
-    s.addPropertie("Luftdruck", "RangeMax", "99")
-    s.addPropertie("Luftdruck", "Type", "Float")
+    val temperaturValues = s.addProperty("Temperatur", "ValueType")_
+    temperaturValues("RangeMin", "1")
+    temperaturValues("RangeMax", "99")
+    temperaturValues("Type", "Float")
+
+
+    val feuchtValues = s.addProperty("Feuchtigkeit", "ValueType")_
+    feuchtValues("RangeMin", "1")
+    feuchtValues("RangeMax", "99")
+    feuchtValues("Type", "Float")
+
 
     s.addTags(Tag("Test"))
     s.addTags(Tag("Temperatur"))

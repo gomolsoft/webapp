@@ -31,16 +31,17 @@ case class IoTPropertyBase(@BeanProperty propertyName: String) {
 case class SensorModule(@BeanProperty var serialNo: String,
                         @BeanProperty var description: String
                          ) extends Module {
-  @Id
-  @BeanProperty var id: java.lang.String = _
+  @Id @BeanProperty var id: java.lang.String = _
 
-  @BeanProperty var properties: IoTPropertyBase = _
+  @BeanProperty var properties: java.util.Map[String,IoTPropertyBase] = _
   @BeanProperty var tags: java.util.List[Tag] = _
 
-  def addPropertie(key: String, propVal: String, value: Object): Unit = {
+  def addProperty(key: String, propertyType: String)(propVal: String, value: Object): Unit = {
     if (properties == null)
-      properties = new IoTPropertyBase(key)
-    properties.add(propVal, value)
+      properties = new util.HashMap[String, IoTPropertyBase]()
+    if (properties.get(key) == null)
+      properties.put(key, IoTPropertyBase(propertyType))
+    properties.get(key).add(propVal, value)
   }
 
   def addTags(tag: Tag): Unit = {

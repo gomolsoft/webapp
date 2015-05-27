@@ -26,7 +26,7 @@ trait ModuleTypes[T] {
       case ('=', n1:Number, n2:Number)   => n1.doubleValue() == n2.doubleValue()
       case ('=', d1:LocalDate, d2:LocalDate)   => d1.compareTo(d2) == 0
 
-      case _ => false
+      case _ => throw new RuntimeException
     }
 
   def value: T

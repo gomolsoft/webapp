@@ -18,11 +18,11 @@ trait Module {
 case class Tag(@BeanProperty tagName: String)
 
 case class IoTPropertyBase(@BeanProperty propertyName: String) {
-  @BeanProperty var properties: java.util.Map[String, Object] = _
+  @BeanProperty var properties: java.util.Map[String, String] = _
 
-  def add(name: String, value: Object): Unit = {
+  def add(name: String, value: String): Unit = {
     if (properties == null) {
-      properties = new java.util.HashMap();
+      properties = new java.util.HashMap()
     }
     properties.put(name, value)
   }
@@ -33,15 +33,24 @@ case class SensorModule(@BeanProperty var serialNo: String,
                          ) extends Module {
   @Id @BeanProperty var id: java.lang.String = _
 
-  @BeanProperty var properties: java.util.Map[String,IoTPropertyBase] = _
+  @BeanProperty var properties: java.util.Map[String,java.util.List[IoTPropertyBase]] = _
+
   @BeanProperty var tags: java.util.List[Tag] = _
 
-  def addProperty(key: String, propertyType: String)(propVal: String, value: Object): Unit = {
-    if (properties == null)
-      properties = new util.HashMap[String, IoTPropertyBase]()
-    if (properties.get(key) == null)
-      properties.put(key, IoTPropertyBase(propertyType))
-    properties.get(key).add(propVal, value)
+  def addProperty(key: String, propertyType: String)(propVal: String, value: String): Unit = {
+    if ( properties == null )
+      properties = new util.HashMap()
+
+    if (properties.get( key ) == null)
+      properties.put( key, new util.ArrayList() )
+
+    val iotP = IoTPropertyBase( propertyType )
+    for {
+      t <- properties.get(key)
+    }
+    iotP.add(propVal, value)
+    properties.get( key ).add( iotP )
+
   }
 
   def addTags(tag: Tag): Unit = {

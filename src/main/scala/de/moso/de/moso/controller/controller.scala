@@ -57,6 +57,11 @@ class LocationController {
     feuchtValues("RangeMax", "99")
     feuchtValues("Type", "Float")
 
+    val feuchtValues2 = s.addProperty("Feuchtigkeit", "RangeType")_
+    feuchtValues2("Range$Min", "1")
+    feuchtValues2("Range$Max", "99")
+    feuchtValues2("T$pe", "Float")
+
 
     s.addTags(Tag("Test"))
     s.addTags(Tag("Temperatur"))
@@ -68,6 +73,9 @@ class LocationController {
     val a = new Array[Any](5)
     a.update(0, s)
     a.update(1, t)
+
+    val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))
+    lb.build
 
     ResponseEntity.ok(a)
 

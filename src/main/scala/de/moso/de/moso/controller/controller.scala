@@ -46,27 +46,26 @@ class LocationController {
 
     val s = new SensorModule("1-4711", "Temperatur")
 
-    val temperaturValues = s.addProperty("Temperatur", "ValueType")_
-    temperaturValues("RangeMin", "1")
-    temperaturValues("RangeMax", "99")
-    temperaturValues("Type", "Float")
+    var range = s.addProperty("Temperatur", "Range")_
+    range("RangeMin", "1")
+    range("RangeMax", "199")
+
+    var value = s.addProperty("Temperatur", "Value")_
+    value("Type", "Float")
 
 
-    val feuchtValues = s.addProperty("Feuchtigkeit", "ValueType")_
-    feuchtValues("RangeMin", "1")
-    feuchtValues("RangeMax", "99")
-    feuchtValues("Type", "Float")
+    range = s.addProperty("Feuchtigkeit", "Range")_
+    range("RangeMin", "0")
+    range("RangeMax", "999")
 
-    val feuchtValues2 = s.addProperty("Feuchtigkeit", "RangeType")_
-    feuchtValues2("Range$Min", "1")
-    feuchtValues2("Range$Max", "99")
-    feuchtValues2("T$pe", "Float")
+    value = s.addProperty("Feuchtigkeit", "Value")_
+    value("Type", "Int")
 
-
-    s.addTags(Tag("Test"))
+    s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))
 
     myComponentRepository.save(s)
+
 
     val t = myComponentRepository.findAll()
 

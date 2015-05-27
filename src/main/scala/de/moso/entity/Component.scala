@@ -5,6 +5,7 @@ import java.util
 import org.springframework.data.annotation.Id
 
 import scala.beans.BeanProperty
+import scala.collection.JavaConversions._
 
 /**
  * Created by sandro on 18.05.15.
@@ -20,11 +21,11 @@ case class Tag(@BeanProperty tagName: String)
 case class IoTPropertyBase(@BeanProperty propertyName: String) {
   @BeanProperty var properties: java.util.Map[String, String] = _
 
-  def add(name: String, value: String): Unit = {
+  def add(name: String, value: String): Boolean = {
     if (properties == null) {
       properties = new java.util.HashMap()
     }
-    properties.put(name, value)
+    null != properties.put(name, value)
   }
 }
 
@@ -44,13 +45,28 @@ case class SensorModule(@BeanProperty var serialNo: String,
     if (properties.get( key ) == null)
       properties.put( key, new util.ArrayList() )
 
-    val iotP = IoTPropertyBase( propertyType )
-    for {
-      t <- properties.get(key)
-    }
-    iotP.add(propVal, value)
-    properties.get( key ).add( iotP )
+    val iotPropList = properties.get(key)
+    if (iotPropList isEmpty)
+      iotPropList add( IoTPropertyBase(propertyType) )
 
+    def assign:Boolean = {
+      var found = false
+      for (t <- iotPropList) {
+        t match {
+          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
+            iot.add(propVal, value)
+            found = true
+          }
+          case _ =>
+        }
+      }
+      found
+    }
+
+    if (!assign) {
+      iotPropList add( IoTPropertyBase(propertyType) )
+      assign
+    }
   }
 
   def addTags(tag: Tag): Unit = {

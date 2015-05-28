@@ -41,54 +41,54 @@ class LocationController {
     locationRepository findAll()
   }
 
-  def addProperty(properties: java.util.Map[String,java.util.List[IoTPropertyBase]])(key: String, propertyType: String)(propVal: String, value: String): Unit = {
-    if (properties.get( key ) == null)
-      properties.put( key, new util.ArrayList() )
-
-    val iotPropList = properties.get(key)
-    if (iotPropList isEmpty)
-      iotPropList add( IoTPropertyBase(propertyType) )
-
-    def assign:Boolean = {
-      var found = false
-      for (t <- iotPropList) {
-        t match {
-          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
-            iot.add(propVal, value)
-            found = true
-          }
-          case _ =>
-        }
-      }
-      found
-    }
-
-    if (!assign) {
-      iotPropList add( IoTPropertyBase(propertyType) )
-      assign
-    }
-  }
-
-
-
-@RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
+  @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
+
+    def addProperty(key: String, propertyType: String)(propVal: String, value: String)(properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
+      if (properties.get( key ) == null)
+        properties.put( key, new java.util.ArrayList() )
+
+      val iotPropList = properties.get(key)
+      if (iotPropList isEmpty)
+        iotPropList add( IoTPropertyBase(propertyType) )
+
+      def assign:Boolean = {
+        var found = false
+        for (t <- iotPropList) {
+          t match {
+            case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
+              iot.add(propVal, value)
+              found = true
+            }
+            case _ =>
+          }
+        }
+        found
+      }
+
+      if (!assign) {
+        iotPropList add( IoTPropertyBase(propertyType) )
+        assign
+      }
+    }
+
     val s = new SensorModule("1-4711", "Temperatur")
 
-    var range = s.addProperty("Temperatur", "Range")_
-    range("RangeMin", "1")
-    range("RangeMax", "199")
-
-    var value = s.addProperty("Temperatur", "Value")_
-    value("Type", "Float")
+    var range = addProperty("Temperatur", "Range")_
+    s.addProperty(range("RangeMin", "1"))
+    s.addProperty(range("RangeMax", "199"))
 
 
-    range = s.addProperty("Feuchtigkeit", "Range")_
-    range("RangeMin", "0")
-    range("RangeMax", "999")
+    var value = addProperty("Temperatur", "Value")_
+    s.addProperty (value("Type", "Float"))
 
-    value = s.addProperty("Feuchtigkeit", "Value")_
-    value("Type", "Int")
+
+    range = addProperty("Feuchtigkeit", "Range")_
+    s.addProperty (range("RangeMin", "0"))
+    s.addProperty (range("RangeMax", "999"))
+
+    value = addProperty("Feuchtigkeit", "Value")_
+    s.addProperty (value("Type", "Int"))
 
     s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))

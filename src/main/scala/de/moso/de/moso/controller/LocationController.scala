@@ -105,44 +105,6 @@ class LocationController {
     val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))
     lb.build
     ResponseEntity.ok(a)
-/* ** */
-
-//    ResponseEntity.ok()
-
-    /*
-        val u = new User("UserName", "UserPwd","Admin", "AdminLast")
-
-        def coder(mainCode:String) = {"coder->"+mainCode+u.getUsername+":"+ UUID.randomUUID().toString}
-
-        val s = new Sensor[Any]("Sensor", null)
-
-        val c = new MyComponent(coder)
-        c.name = "MyComponent"
-
-        val tc = new TestClass("TestClass", coder)
-
-        val id = UUID.randomUUID().toString
-
-        for {
-          x <- 0 to 9
-          y <- 0 to 9
-        }
-        {
-          val dbComp = new DBMyComponent(s"$x-$id-$y", s"$x:$y")
-          myComponentRepository.save(dbComp)
-        }
-
-        val t = myComponentRepository.findAll()
-
-        val a = new Array[Any](5)
-        a.update(0,c)
-        a.update(1,s)
-        a.update(2,u)
-        a.update(3,tc)
-        a.update(4,t)
-
-        ResponseEntity.ok(a)
-        */
   }
 
 }

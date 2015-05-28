@@ -41,11 +41,38 @@ class LocationController {
     locationRepository findAll()
   }
 
+  def addProperty(properties: java.util.Map[String,java.util.List[IoTPropertyBase]])(key: String, propertyType: String)(propVal: String, value: String): Unit = {
+    if (properties.get( key ) == null)
+      properties.put( key, new util.ArrayList() )
 
-  @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
+    val iotPropList = properties.get(key)
+    if (iotPropList isEmpty)
+      iotPropList add( IoTPropertyBase(propertyType) )
+
+    def assign:Boolean = {
+      var found = false
+      for (t <- iotPropList) {
+        t match {
+          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
+            iot.add(propVal, value)
+            found = true
+          }
+          case _ =>
+        }
+      }
+      found
+    }
+
+    if (!assign) {
+      iotPropList add( IoTPropertyBase(propertyType) )
+      assign
+    }
+  }
+
+
+
+@RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
-
-
     val s = new SensorModule("1-4711", "Temperatur")
 
     var range = s.addProperty("Temperatur", "Range")_

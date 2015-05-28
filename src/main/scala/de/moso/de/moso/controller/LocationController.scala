@@ -41,8 +41,10 @@ class LocationController {
     locationRepository findAll()
   }
 
+
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
+
 
     val s = new SensorModule("1-4711", "Temperatur")
 
@@ -75,8 +77,10 @@ class LocationController {
 
     val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))
     lb.build
-
     ResponseEntity.ok(a)
+/* ** */
+
+//    ResponseEntity.ok()
 
     /*
         val u = new User("UserName", "UserPwd","Admin", "AdminLast")

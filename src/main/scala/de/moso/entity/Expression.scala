@@ -43,14 +43,10 @@ case class ModuleNumber(var value: ScalaNumber) extends ModuleTypes[ScalaNumber]
 case class ModuleBool(var value: Boolean) extends ModuleTypes[Boolean]
 
 case class ModuleInt(var value: Int) extends ModuleTypes[Int] {
-  implicit def intToNumb(moduleInt: ModuleInt): ModuleNumber = {
-    ModuleNumber(BigInt(moduleInt.value))
-  }
+  implicit def int2Numb(moduleInt: ModuleInt): ModuleNumber = ModuleNumber(BigInt(moduleInt.value))
 }
 case class ModuleDouble(var value: Double) extends ModuleTypes[Double] {
-  implicit def floatToNumb(moduleFloat: ModuleDouble): ModuleNumber = {
-    ModuleNumber(BigDecimal(moduleFloat.value))
-  }
+  implicit def float2Numb(moduleFloat: ModuleDouble): ModuleNumber = ModuleNumber(BigDecimal(moduleFloat.value))
 }
 
 trait Logic {

@@ -37,64 +37,32 @@ class LocationController {
   }
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/rooms"))
-  def test123() = {
-    locationRepository findAll()
+  def findAllRooms() = {
+    ResponseEntity ok locationRepository.findAll()
   }
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
+    val s = new SensorModule("1-4711", "Temperatur") with ModuleFiller
 
-    def addProperty(key: String, propertyType: String)(propVal: String, value: String)(properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
-      if (properties.get( key ) == null)
-        properties.put( key, new java.util.ArrayList() )
-
-      val iotPropList = properties.get(key)
-      if (iotPropList isEmpty)
-        iotPropList add( IoTPropertyBase(propertyType) )
-
-      def assign:Boolean = {
-        var found = false
-        for (t <- iotPropList) {
-          t match {
-            case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
-              iot.add(propVal, value)
-              found = true
-            }
-            case _ =>
-          }
-        }
-        found
-      }
-
-      if (!assign) {
-        iotPropList add( IoTPropertyBase(propertyType) )
-        assign
-      }
-    }
-
-    val s = new SensorModule("1-4711", "Temperatur")
-
-    var range = addProperty("Temperatur", "Range")_
+    var range = s.createPropertyType("Temperatur", "Range")_
     s.addProperty(range("RangeMin", "1"))
     s.addProperty(range("RangeMax", "199"))
 
-
-    var value = addProperty("Temperatur", "Value")_
+    var value = s.createPropertyType("Temperatur", "Value")_
     s.addProperty (value("Type", "Float"))
 
-
-    range = addProperty("Feuchtigkeit", "Range")_
+    range = s.createPropertyType("Feuchtigkeit", "Range")_
     s.addProperty (range("RangeMin", "0"))
     s.addProperty (range("RangeMax", "999"))
 
-    value = addProperty("Feuchtigkeit", "Value")_
+    value = s.createPropertyType("Feuchtigkeit", "Value")_
     s.addProperty (value("Type", "Int"))
 
     s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))
 
     myComponentRepository.save(s)
-
 
     val t = myComponentRepository.findAll()
 
@@ -107,4 +75,33 @@ class LocationController {
     ResponseEntity.ok(a)
   }
 
+  /*
+  private[this] def addProperty(key: String, propertyType: String)(propVal: String, value: String)(properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
+    if (properties.get( key ) == null)
+      properties.put( key, new java.util.ArrayList() )
+
+    val iotPropList = properties.get(key)
+    if (iotPropList isEmpty)
+      iotPropList add( IoTPropertyBase(propertyType) )
+
+    def assign:Boolean = {
+      var found = false
+      for (t <- iotPropList) {
+        t match {
+          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
+            iot.add(propVal, value)
+            found = true
+          }
+          case _ =>
+        }
+      }
+      found
+    }
+
+    if (!assign) {
+      iotPropList add( IoTPropertyBase(propertyType) )
+      assign
+    }
+  }
+*/
 }

@@ -11,5 +11,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class IoTApp
 
 object IoTApp extends App {
-  SpringApplication.run(classOf[IoTApp]);
+  SpringApplication.run(classOf[IoTApp])
 }

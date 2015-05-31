@@ -5,42 +5,11 @@ import java.util
 import org.springframework.data.annotation.Id
 
 import scala.beans.BeanProperty
-import scala.collection.JavaConversions._
 
 /**
  * Created by sandro on 18.05.15.
  */
 
-trait ModuleFiller {
-  def createPropertyType(key: String, propertyType: String)(propVal: String, value: String)(properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
-    if (properties.get( key ) == null)
-      properties.put( key, new java.util.ArrayList() )
-
-    val iotPropList = properties.get(key)
-    if (iotPropList isEmpty)
-      iotPropList add( IoTPropertyBase(propertyType) )
-
-    def assign:Boolean = {
-      var found = false
-      for (t <- iotPropList) {
-        t match {
-          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
-            iot.add(propVal, value)
-            found = true
-          }
-          case _ =>
-        }
-      }
-      found
-    }
-
-    if (!assign) {
-      iotPropList add( IoTPropertyBase(propertyType) )
-      assign
-    }
-  }
-
-}
 
 trait Module {
   var serialNo: String

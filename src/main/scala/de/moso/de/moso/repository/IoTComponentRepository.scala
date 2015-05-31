@@ -1,6 +1,6 @@
 package de.moso.de.moso.repository
 
-import de.moso.entity._
+import de.moso.entity.SensorModule
 import org.springframework.data.mongodb.repository.MongoRepository
 
 /**

@@ -15,10 +15,15 @@ class DeviceController {
   @Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
 
-  @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/{serialId}"))
-  def detectRoom(@PathVariable("serialId") serialId: String) = {
+  @RequestMapping(value = Array("/{serialId}"), produces = Array("application/json"), method = Array(RequestMethod.GET))
+  def detectBySerialNo(@PathVariable("serialId") serialId: String) = {
     val device = myComponentRepository findBySerialNo (serialId)
     device
+  }
+
+  @RequestMapping(value = Array("/devices"), produces = Array("application/json"), method = Array(RequestMethod.GET))
+  def allDevices = {
+    myComponentRepository findAll
   }
 
 }

@@ -2,6 +2,7 @@ package de.moso.de.moso.controller
 
 import de.moso.de.moso.repository.IoTComponentRepository
 import de.moso.entity._
+import de.moso.entity.factory.ModuleFiller
 import de.moso.repository.{ComponentRepository, LocationRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
@@ -22,12 +23,12 @@ class LocationController {
 
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
   def detectRoom(@PathVariable("room") room: String) = {
-    val location = locationRepository findByLocationName (room)
+    val location = locationRepository findByLocationName room
     if (location != null) {
       val components = {
         for {
           serialNo <- location getSerialNos()
-          component = componentRepository findBySerialNo (serialNo)
+          component = componentRepository findBySerialNo serialNo
         } yield component
       }
       ResponseEntity.ok(components.toArray)
@@ -52,11 +53,11 @@ class LocationController {
     var value = s.createPropertyType("Temperatur", "Value")_
     s.addProperty (value("Type", "Float"))
 
-    range = s.createPropertyType("Feuchtigkeit", "Range")_
+    range = s.createPropertyType("Feuchtigkeit", "Range")
     s.addProperty (range("RangeMin", "0"))
     s.addProperty (range("RangeMax", "999"))
 
-    value = s.createPropertyType("Feuchtigkeit", "Value")_
+    value = s.createPropertyType("Feuchtigkeit", "Value")
     s.addProperty (value("Type", "Int"))
 
     s.addTags(Tag("Feuchtigkeit"))

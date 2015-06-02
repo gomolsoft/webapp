@@ -1,5 +1,7 @@
 package de.moso.de.moso.controller
 
+import akka.actor.{ActorSystem, Props}
+import de.moso.de.moso.ActorPersistence
 import de.moso.de.moso.repository.IoTComponentRepository
 import de.moso.entity._
 import de.moso.entity.factory.ModuleFiller
@@ -20,6 +22,8 @@ class LocationController {
   @Autowired var locationRepository: LocationRepository = _
   @Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
+
+  val akkaSystem = ActorSystem("PersistenceSystem")
 
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
   def detectRoom(@PathVariable("room") room: String) = {
@@ -44,6 +48,10 @@ class LocationController {
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
+
+    // default Actor constructor
+    val persistenceSystem = akkaSystem.actorOf(Props[ActorPersistence], name = "PersistenceSystem")
+
     val s = new SensorModule("1-4711", "Temperatur") with ModuleFiller
 
     var range = s.createPropertyType("Temperatur", "Range")_
@@ -63,7 +71,8 @@ class LocationController {
     s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))
 
-    myComponentRepository.save(s)
+    persistenceSystem ! s
+    //myComponentRepository.save(s)
 
     val t = myComponentRepository.findAll()
 
@@ -73,6 +82,7 @@ class LocationController {
 
     val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))
     lb.build
+
     ResponseEntity.ok(a)
   }
 

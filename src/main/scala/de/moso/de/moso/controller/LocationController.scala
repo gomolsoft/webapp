@@ -1,6 +1,8 @@
 package de.moso.de.moso.controller
 
-import akka.actor.{ActorSystem, Props}
+import javax.annotation.PostConstruct
+
+import akka.actor.{ActorRef, ActorSystem, Props}
 import de.moso.de.moso.ActorPersistence
 import de.moso.de.moso.repository.IoTComponentRepository
 import de.moso.entity._
@@ -24,6 +26,12 @@ class LocationController {
   @Autowired var myComponentRepository: IoTComponentRepository = _
 
   val akkaSystem = ActorSystem("PersistenceSystem")
+  var persistenceSystem: ActorRef = _
+
+  @PostConstruct
+  def init = {
+    persistenceSystem = akkaSystem.actorOf(Props(classOf[ActorPersistence], myComponentRepository), name = "PersistenceSystem")
+  }
 
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
   def detectRoom(@PathVariable("room") room: String) = {
@@ -48,10 +56,6 @@ class LocationController {
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
-
-    // default Actor constructor
-    val persistenceSystem = akkaSystem.actorOf(Props[ActorPersistence], name = "PersistenceSystem")
-
     val s = new SensorModule("1-4711", "Temperatur") with ModuleFiller
 
     var range = s.createPropertyType("Temperatur", "Range")_
@@ -85,34 +89,4 @@ class LocationController {
 
     ResponseEntity.ok(a)
   }
-
-  /*
-  private[this] def addProperty(key: String, propertyType: String)(propVal: String, value: String)(properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
-    if (properties.get( key ) == null)
-      properties.put( key, new java.util.ArrayList() )
-
-    val iotPropList = properties.get(key)
-    if (iotPropList isEmpty)
-      iotPropList add( IoTPropertyBase(propertyType) )
-
-    def assign:Boolean = {
-      var found = false
-      for (t <- iotPropList) {
-        t match {
-          case iot: IoTPropertyBase if (iot.propertyName.equals(propertyType)) => {
-            iot.add(propVal, value)
-            found = true
-          }
-          case _ =>
-        }
-      }
-      found
-    }
-
-    if (!assign) {
-      iotPropList add( IoTPropertyBase(propertyType) )
-      assign
-    }
-  }
-*/
 }

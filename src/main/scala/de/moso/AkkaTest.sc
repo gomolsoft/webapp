@@ -1,5 +1,8 @@
 import akka.actor.{Actor, ActorSystem, Props}
 
+import scala.annotation.tailrec
+import scala.util.Random
+
 
 class HelloActor extends Actor {
   def receive = {
@@ -17,3 +20,23 @@ class AkkaTest {
 }
 
 //val t = new AkkaTest
+val mainList = List(0 to 10000:_*)
+
+@tailrec
+def check(ints: List[Int], cnts: Int = 0):Boolean = {
+  ints match {
+    case Nil => false
+
+    case x :: tail => {
+
+      if (x == 2) {
+        println(s"value= $x, after count= $cnts")
+        return true
+      }
+      check(tail, cnts+1)
+
+    }
+  }
+}
+
+check(Random.shuffle(mainList))

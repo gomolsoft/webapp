@@ -29,7 +29,7 @@ def check(ints: List[Int], cnts: Int = 0):Boolean = {
 
     case x :: tail => {
 
-      if (x == 2) {
+      if (x == 5000) {
         println(s"value= $x, after count= $cnts")
         return true
       }

@@ -19,6 +19,7 @@ trait Module {
 case class Tag(@BeanProperty tagName: String)
 
 case class IoTPropertyBase(@BeanProperty propertyName: String) {
+
   @BeanProperty var properties: java.util.Map[String, String] = _
 
   def add(name: String, value: String): Boolean = {
@@ -27,6 +28,7 @@ case class IoTPropertyBase(@BeanProperty propertyName: String) {
     }
     null != properties.put(name, value)
   }
+
 }
 
 case class SensorModule(@BeanProperty var serialNo: String,

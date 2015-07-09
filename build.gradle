@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.2.3.RELEASE'
+        springBootVersion = '1.2.5.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -31,8 +31,8 @@ war {
     version = '0.0.1'
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -50,7 +50,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.1'
     compile 'org.apache.commons:commons-collections4:4.0'
 
-    compile 'org.scala-lang:scala-library:2.11.6'
+    compile 'org.scala-lang:scala-library:2.11.7'
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
@@ -63,7 +63,7 @@ tasks.withType(ScalaCompile) {
 
 dependencies {
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.11', version: '2.4-SNAPSHOT'
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.6'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.7'
     //compile group: 'com.typesafe.akka', name: 'akka-actor_2.10', version: '2.3.11'
 }
 

@@ -21,7 +21,7 @@ apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'webrest'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1'
 }
 
 apply plugin: 'war'
@@ -45,7 +45,7 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
 
     compile 'org.apache.commons:commons-lang3:3.3.1'
     compile 'org.apache.commons:commons-collections4:4.0'

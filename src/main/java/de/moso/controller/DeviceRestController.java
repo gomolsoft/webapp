@@ -1,37 +1,30 @@
 package de.moso.controller;
 
-import de.moso.entity.*;
-import de.moso.entity.logic.Activation;
-import de.moso.entity.logic.Condition;
-import de.moso.entity.logic.LogicBrick;
-import de.moso.entity.logic.LogicNumericCondition;
-import de.moso.entity.typify.SerialNoTypifier;
+import de.moso.entity.Component;
+import de.moso.entity.ConfigMode;
 import de.moso.factory.ActorFactory;
-import de.moso.factory.AppFactory;
 import de.moso.factory.SensorFactory;
 import de.moso.repository.ComponentRepository;
 import de.moso.repository.LocationRepository;
 import de.moso.repository.LogicRepository;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MultiMap;
-import org.apache.commons.collections4.map.MultiValueMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sandro on 17.04.15.
  */
+/*
 @RestController
 @RequestMapping("/device")
+*/
 public class DeviceRestController {
     @Autowired
     private ComponentRepository componentRepository;
@@ -49,7 +42,8 @@ public class DeviceRestController {
     }
 
     //    @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
-    @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
+
+//    @RequestMapping(value = "/{serNo}/basicRegister", method = RequestMethod.POST)
     public List<Component> doDone(@PathVariable("serNo") String serialNo/*, @RequestBody Component comp*/) {
         final Component component = componentRepository.findBySerialNo(serialNo);
         component.setConfigMode(ConfigMode.CONFIGURING);
@@ -57,8 +51,8 @@ public class DeviceRestController {
         return getDevices();
     }
 
-    @RequestMapping(value = "/reinit", method = RequestMethod.GET)
-    @Autowired
+//    @RequestMapping(value = "/reinit", method = RequestMethod.GET)
+//    @Autowired
     public List<Component> doReinitialize(final SensorFactory sensorFactory, final ActorFactory actorFactory) {
         for (Component c : componentRepository.findAll()) {
             if (c.getConfigMode() == ConfigMode.CONFIGURING) {
@@ -69,18 +63,18 @@ public class DeviceRestController {
         return getDevices();
     }
 
-    @RequestMapping(value = "/{serialId}", method = RequestMethod.GET)
+//    @RequestMapping(value = "/{serialId}", method = RequestMethod.GET)
     public Component getSerialsByRoom(@PathVariable("serialId") String serialId) {
         final Component component = componentRepository.findBySerialNo(serialId);
         return component;
     }
 
-    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+//    @RequestMapping(value = "/messages", method = RequestMethod.GET)
     public Number unreadMessages() {
         return new Integer(9);
     }
 
-    @RequestMapping(value = "/bytype/{compType}", method = RequestMethod.GET)
+//    @RequestMapping(value = "/bytype/{compType}", method = RequestMethod.GET)
     public List<Component> getComponentListOfType(@PathVariable("compType") String typeAsString) {
         List<Component> filtComponents = new ArrayList<>();
         for (Component component : getDevices()) {
@@ -96,6 +90,7 @@ public class DeviceRestController {
         return filtComponents;
     }
 
+    /*
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     @Autowired
     public List<Component> doInit(final SensorFactory sensorFactory, final ActorFactory actorFactory, final AppFactory appFactory) {
@@ -258,4 +253,5 @@ public class DeviceRestController {
 
         return components;
     }
+    */
 }

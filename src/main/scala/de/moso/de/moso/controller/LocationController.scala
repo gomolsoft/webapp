@@ -7,12 +7,9 @@ import de.moso.de.moso.ActorPersistence
 import de.moso.de.moso.repository.IoTComponentRepository
 import de.moso.entity._
 import de.moso.entity.factory.ModuleFiller
-import de.moso.repository.{ComponentRepository, LocationRepository}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.{HttpStatus, ResponseEntity}
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._
-
-import scala.collection.JavaConversions._
 
 /**
  * Created by sandro on 17.05.15.
@@ -21,8 +18,8 @@ import scala.collection.JavaConversions._
 @RequestMapping(Array("/location"))
 class LocationController {
 
-  @Autowired var locationRepository: LocationRepository = _
-  @Autowired var componentRepository: ComponentRepository = _
+  //@Autowired var locationRepository: LocationRepository = _
+  //@Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
 
   val akkaSystem = ActorSystem("PersistenceSystem")
@@ -33,6 +30,7 @@ class LocationController {
     persistenceSystem = akkaSystem.actorOf(Props(classOf[ActorPersistence], myComponentRepository), name = "PersistenceSystem")
   }
 
+  /*
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
   def detectRoom(@PathVariable("room") room: String) = {
     val location = locationRepository findByLocationName room
@@ -53,10 +51,11 @@ class LocationController {
   def findAllRooms() = {
     ResponseEntity ok locationRepository.findAll()
   }
+*/
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
-    val s = new SensorModule("1-4711", "Temperatur") with ModuleFiller
+    val s = new SensorModule("Temperatur", "1-4711", "Temperatur-Sensor") with ModuleFiller
 
     var range = s.createPropertyType("Temperatur", "Range")_
     s.addProperty(range("RangeMin", "1"))

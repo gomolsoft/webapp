@@ -7,35 +7,13 @@ import org.springframework.data.annotation.Id
 import scala.beans.BeanProperty
 
 /**
- * Created by sandro on 18.05.15.
+ * Created by sandro on 17.07.15.
  */
-
-
-trait Module {
-  var serialNo: String
-  var description: String
-  var name: String
-}
-
-case class Tag(@BeanProperty tagName: String)
-
-case class IoTPropertyBase(@BeanProperty propertyName: String) {
-
-  @BeanProperty var properties: java.util.Map[String, String] = _
-
-  def add(name: String, value: String): Boolean = {
-    if (properties == null) {
-      properties = new java.util.HashMap()
-    }
-    null != properties.put(name, value)
-  }
-
-}
-
-case class SensorModule(@BeanProperty var name: String,
+//TODO
+case class Location(@BeanProperty var name: String,
                         @BeanProperty var serialNo: String,
                         @BeanProperty var description: String
-                         ) extends Module {
+                         ) {
 
   @Id
   @BeanProperty var id: java.lang.String = _

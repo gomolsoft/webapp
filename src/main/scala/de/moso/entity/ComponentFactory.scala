@@ -7,6 +7,7 @@ import scala.collection.JavaConversions._
  */
 package object factory {
   trait ModuleFiller {
+
     def createPropertyType (key: String, propertyType: String)
                            (propVal: String, value: String)
                            (properties: java.util.Map[String,java.util.List[IoTPropertyBase]]): Unit = {
@@ -17,7 +18,7 @@ package object factory {
       if (iotPropList isEmpty)
         iotPropList add( IoTPropertyBase(propertyType) )
 
-      def assign:Boolean = {
+      def assign: Boolean = {
         var found = false
         for (t <- iotPropList) {
           t match {

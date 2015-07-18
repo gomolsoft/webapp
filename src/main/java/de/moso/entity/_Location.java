@@ -8,16 +8,16 @@ import java.util.List;
 /**
  * Created by sandro on 04.05.15.
  */
-public class Location {
+public class _Location {
     public String locationName;
     public List<String> serialNos;
     @Id
     private String id;
 
-    public Location() {
+    public _Location() {
     }
 
-    public Location(String locationName, List<Component> components) {
+    public _Location(String locationName, List<Component> components) {
         serialNos = new ArrayList<>();
         for (Component component : components) {
             serialNos.add(component.getSerialNo());
@@ -25,7 +25,7 @@ public class Location {
         this.locationName = locationName;
     }
 
-    public Location(String locationName) {
+    public _Location(String locationName) {
         this.locationName = locationName;
         this.serialNos = serialNos;
     }

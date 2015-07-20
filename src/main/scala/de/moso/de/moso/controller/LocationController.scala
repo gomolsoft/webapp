@@ -7,6 +7,8 @@ import de.moso.de.moso.ActorPersistence
 import de.moso.de.moso.repository.IoTComponentRepository
 import de.moso.entity._
 import de.moso.entity.factory.ModuleFiller
+import de.moso.entity.finding.Tag
+import de.moso.entity.naming.Description
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._

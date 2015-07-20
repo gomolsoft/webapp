@@ -1,20 +1,16 @@
+/**
+ * Created by sandro on 18.05.15.
+ */
 package de.moso.entity
 
 import java.util
 
+import de.moso.entity.finding.Tag
+import de.moso.entity.naming.Description
 import org.springframework.data.annotation.Id
 
 import scala.beans.BeanProperty
 
-/**
- * Created by sandro on 18.05.15.
- */
-
-
-case class Description(@BeanProperty long: String, @BeanProperty short: String)
-object Description {
-  def apply(short:String) = new Description("", short)
-}
 
 trait Module {
   var serialNo: String
@@ -23,8 +19,6 @@ trait Module {
   var active: Boolean
 }
 
-
-case class Tag(@BeanProperty tagName: String)
 
 case class IoTPropertyBase(@BeanProperty propertyName: String) {
 

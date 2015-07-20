@@ -11,11 +11,18 @@ import scala.beans.BeanProperty
  */
 
 
+case class Description(@BeanProperty long: String, @BeanProperty short: String)
+object Description {
+  def apply(short:String) = new Description("", short)
+}
+
 trait Module {
   var serialNo: String
-  var description: String
+  var description: Description
   var name: String
+  var active: Boolean
 }
+
 
 case class Tag(@BeanProperty tagName: String)
 
@@ -34,7 +41,8 @@ case class IoTPropertyBase(@BeanProperty propertyName: String) {
 
 case class SensorModule(@BeanProperty var name: String,
                         @BeanProperty var serialNo: String,
-                        @BeanProperty var description: String
+                        @BeanProperty var description: Description,
+                        @BeanProperty var active: Boolean
                          ) extends Module {
 
   @Id

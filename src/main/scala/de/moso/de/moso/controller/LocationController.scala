@@ -55,7 +55,8 @@ class LocationController {
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
-    val s = new SensorModule("Temperatur", "1-4711", "Temperatur-Sensor") with ModuleFiller
+
+    val s = new SensorModule("Temperatur", "1-4711", Description("Temperatur-Sensor"), true) with ModuleFiller
 
     var range = s.createPropertyType("Temperatur", "Range")_
     s.addProperty(range("RangeMin", "1"))

@@ -11,7 +11,7 @@ import de.moso.entity.finding.Tag
 import de.moso.entity.naming.Description
 import de.moso.logic.LogicBuilder
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
+import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.web.bind.annotation._
 
 import scala.beans.BeanProperty
@@ -37,9 +37,6 @@ object ModuleLocationable {
 @RestController
 @RequestMapping(Array("/location"))
 class LocationController {
-
-  //@Autowired var locationRepository: LocationRepository = _
-  //@Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
   @Autowired var myLocationRepository: IoTLocationRepository = _
   @Autowired var myRoomRepository: IoTRoomRepository = _
@@ -55,14 +52,23 @@ class LocationController {
       , myLocationRepository), name = "PersistenceSystem")
   }
 
-  /*
+
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
-  def detectRoom(@PathVariable("room") room: String) = {
-    val location = locationRepository findByLocationName room
-    if (location != null) {
+  def detectRoom(@PathVariable("room") roomName: String) = {
+    val room = myRoomRepository.findByName(roomName)
+
+    if (room != null) {
+      val locations = myLocationRepository.findByRoom(room)
+      ResponseEntity.ok(locations)
+    } else {
+      new ResponseEntity(Array.empty, HttpStatus.NOT_FOUND)
+    }
+
+    /*
+    if (room != null && location != null) {
       val components = {
         for {
-          serialNo <- location getSerialNos()
+          serialNo <- location.getSerialNos()
           component = componentRepository findBySerialNo serialNo
         } yield component
       }
@@ -70,13 +76,14 @@ class LocationController {
     } else {
       new ResponseEntity(Array.empty, HttpStatus.NOT_FOUND)
     }
+    */
   }
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/rooms"))
   def findAllRooms() = {
-    ResponseEntity ok locationRepository.findAll()
+    ResponseEntity.ok(myRoomRepository.findAll())
   }
-*/
+
 
   @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {

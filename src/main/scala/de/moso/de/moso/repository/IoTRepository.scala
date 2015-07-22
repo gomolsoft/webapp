@@ -19,6 +19,8 @@ trait IoTRoomRepository extends MongoRepository[Room, String] {
 }
 
 trait IoTLocationRepository extends MongoRepository[Location, String] {
-  def findByRoom(room: Room): Location
+
+  def findByRoom(room: Room): List[Location]
 
 }
+

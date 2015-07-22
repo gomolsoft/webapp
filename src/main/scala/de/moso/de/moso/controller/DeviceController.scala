@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation._
 @RestController
 @RequestMapping(Array("/myDevice"))
 class DeviceController {
-  //@Autowired var locationRepository: LocationRepository = _
-  //@Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
 
   @RequestMapping(value = Array("/{serialId}"), produces = Array("application/json"), method = Array(RequestMethod.GET))

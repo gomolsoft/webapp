@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
  */
 
 
-trait ILocation {
+trait Locationable {
   var room: Room
   var location: String
 
@@ -21,7 +21,7 @@ case class Room( @BeanProperty var name: String ) {
 
 }
 
-case class Location( @BeanProperty var room: Room, @BeanProperty var location: String ) extends ILocation {
+case class Location( @BeanProperty var room: Room, @BeanProperty var location: String ) extends Locationable {
   @Id
   @BeanProperty var id: java.lang.String = _
 

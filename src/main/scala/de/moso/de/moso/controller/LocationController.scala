@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import de.moso.de.moso.ActorPersistence
-import de.moso.de.moso.repository.IoTComponentRepository
+import de.moso.de.moso.repository.{IoTComponentRepository, IoTLocationRepository, IoTRoomRepository}
 import de.moso.entity._
 import de.moso.entity.factory.ModuleFiller
 import de.moso.entity.finding.Tag
@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation._
 import scala.beans.BeanProperty
 
 
-case class HelperLocation(
+case class ModuleLocationable(
                            @BeanProperty var serialNo: String,
                            @BeanProperty var description: Description,
                            @BeanProperty var name:     String,
                            @BeanProperty var active:   Boolean,
                            @BeanProperty var room:     Room,
-                           @BeanProperty var location: String) extends Module with ILocation
+                           @BeanProperty var location: String) extends Module with Locationable
 
-object HelperLocation {
-  def apply(module: Module, location: ILocation) = {
-    new HelperLocation(module.serialNo, module.description, module.name, module.active, location.room,location.location)
+object ModuleLocationable {
+  def apply(module: Module, location: Locationable) = {
+    new ModuleLocationable(module.serialNo, module.description, module.name, module.active, location.room,location.location)
   }
 }
 
@@ -41,13 +41,18 @@ class LocationController {
   //@Autowired var locationRepository: LocationRepository = _
   //@Autowired var componentRepository: ComponentRepository = _
   @Autowired var myComponentRepository: IoTComponentRepository = _
+  @Autowired var myLocationRepository: IoTLocationRepository = _
+  @Autowired var myRoomRepository: IoTRoomRepository = _
 
   val akkaSystem = ActorSystem("PersistenceSystem")
   var persistenceSystem: ActorRef = _
 
   @PostConstruct
   def init = {
-    persistenceSystem = akkaSystem.actorOf(Props(classOf[ActorPersistence], myComponentRepository), name = "PersistenceSystem")
+    persistenceSystem = akkaSystem.actorOf(Props(classOf[ActorPersistence]
+      , myComponentRepository
+      , myRoomRepository
+      , myLocationRepository), name = "PersistenceSystem")
   }
 
   /*
@@ -95,10 +100,16 @@ class LocationController {
     s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))
 
-    //persistenceSystem ! s
+    persistenceSystem ! s
     //myComponentRepository.save(s)
 
-    var h2 = HelperLocation(s, Location(Room("Schlafzimmer"), "Fenster"))
+    val r = Room("Schlafzimmer")
+    persistenceSystem ! r
+
+    val l = Location(r, "Fenster Links")
+    persistenceSystem ! l
+
+    var h2 = ModuleLocationable(s, l)
     //var t = mLocation(s)
 
     val t = myComponentRepository.findAll()
@@ -107,7 +118,6 @@ class LocationController {
     a.update(0, s)
     a.update(1, t)
 
-    a.update(2, h1)
     a.update(3, h2)
 
     val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))

@@ -13,6 +13,7 @@ class ActorPersistence(myComponentRepository: IoTComponentRepository, myRoomRepo
     case sm: SensorModule => myComponentRepository.save(sm)
     case lo: Location     => myLocationRepository.save(lo)
     case ro: Room         => myRoomRepository.save(ro)
+
     case _                =>
   }
 }

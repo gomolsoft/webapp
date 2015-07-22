@@ -9,9 +9,27 @@ import de.moso.entity._
 import de.moso.entity.factory.ModuleFiller
 import de.moso.entity.finding.Tag
 import de.moso.entity.naming.Description
+import de.moso.logic.LogicBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._
+
+import scala.beans.BeanProperty
+
+
+case class HelperLocation(
+                           @BeanProperty var serialNo: String,
+                           @BeanProperty var description: Description,
+                           @BeanProperty var name:     String,
+                           @BeanProperty var active:   Boolean,
+                           @BeanProperty var room:     Room,
+                           @BeanProperty var location: String) extends Module with ILocation
+
+object HelperLocation {
+  def apply(module: Module, location: ILocation) = {
+    new HelperLocation(module.serialNo, module.description, module.name, module.active, location.room,location.location)
+  }
+}
 
 /**
  * Created by sandro on 17.05.15.
@@ -55,10 +73,10 @@ class LocationController {
   }
 */
 
-  @RequestMapping(method = Array(RequestMethod.GET), value = Array("/test"))
+  @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/test"))
   def test() = {
-
     val s = new SensorModule("Temperatur", "1-4711", Description("Temperatur-Sensor"), true) with ModuleFiller
+
 
     var range = s.createPropertyType("Temperatur", "Range")_
     s.addProperty(range("RangeMin", "1"))
@@ -77,14 +95,20 @@ class LocationController {
     s.addTags(Tag("Feuchtigkeit"))
     s.addTags(Tag("Temperatur"))
 
-    persistenceSystem ! s
+    //persistenceSystem ! s
     //myComponentRepository.save(s)
+
+    var h2 = HelperLocation(s, Location(Room("Schlafzimmer"), "Fenster"))
+    //var t = mLocation(s)
 
     val t = myComponentRepository.findAll()
 
     val a = new Array[Any](5)
     a.update(0, s)
     a.update(1, t)
+
+    a.update(2, h1)
+    a.update(3, h2)
 
     val lb = LogicBuilder(null, s.properties.get("Feuchtigkeit"))
     lb.build

@@ -33,10 +33,10 @@ case class IoTPropertyBase(@BeanProperty propertyName: String) {
 
 }
 
-case class SensorModule(@BeanProperty var name: String,
-                        @BeanProperty var serialNo: String,
-                        @BeanProperty var description: Description,
-                        @BeanProperty var active: Boolean
+case class SensorModule( @BeanProperty var name: String,
+                         @BeanProperty var serialNo: String,
+                         @BeanProperty var description: Description,
+                         @BeanProperty var active: Boolean
                          ) extends Module {
 
   @Id

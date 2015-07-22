@@ -1,14 +1,10 @@
-package de.moso.entity
+package de.moso.logic
+
+import de.moso.entity.{IoTPropertyBase, Module}
 
 /**
- * Created by sandro on 26.05.15.
+ * Created by Sandro on 20.07.15 for Default (Template) Project.
  */
-
-trait ModuleBind[T]  {
-  def moduleType: ModuleTypes[T]
-  def module: Module
-}
-
 case class LogicBuilder[+T](module: Module, prop: java.util.List[IoTPropertyBase])  {
   def build = {
     prop.toString

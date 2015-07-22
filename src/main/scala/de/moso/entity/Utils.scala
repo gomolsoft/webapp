@@ -17,7 +17,7 @@ package naming {
   case class Description(@BeanProperty long: String, @BeanProperty short: String)
 
   object Description {
-    def apply(short: String) = new Description("", short)
+    def apply(short: String) = new Description(null, short)
   }
 
 }

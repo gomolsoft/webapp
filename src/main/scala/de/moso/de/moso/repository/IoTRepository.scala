@@ -1,6 +1,7 @@
 package de.moso.de.moso.repository
 
 import de.moso.entity.{Location, Room, SensorModule}
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.repository.MongoRepository
 
 /**
@@ -18,9 +19,17 @@ trait IoTRoomRepository extends MongoRepository[Room, String] {
 
 }
 
-trait IoTLocationRepository extends MongoRepository[Location, String] {
 
-  def findByRoom(room: Room): List[Location]
+trait LocationRepository extends MongoRepository[Location, String]
 
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.{Criteria, Query}
+
+
+class IoTLocationRepository extends LocationRepository {
+  @Autowired var mongoTemplate: MongoTemplate = _
+
+  def loadByRoom(room: Room) = {
+    mongoTemplate.find(new Query(Criteria.where("room").is(room)), classOf[Location])
+  }
 }
-

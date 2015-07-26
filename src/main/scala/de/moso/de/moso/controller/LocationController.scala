@@ -58,7 +58,7 @@ class LocationController {
     val room = myRoomRepository.findByName(roomName)
 
     if (room != null) {
-      val locations = myLocationRepository.findByRoom(room)
+      val locations = myLocationRepository.loadByRoom(room)
       ResponseEntity.ok(locations)
     } else {
       new ResponseEntity(Array.empty, HttpStatus.NOT_FOUND)

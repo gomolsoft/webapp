@@ -52,8 +52,7 @@ class LocationController {
       , myLocationRepository), name = "PersistenceSystem")
   }
 
-
-  @RequestMapping(produces = Array("application/json"), method = Array(RequestMethod.GET), value = Array("/room/{room}"))
+  @RequestMapping(method = Array(RequestMethod.GET), value = Array("/room/{room}"))
   def detectRoom(@PathVariable("room") roomName: String) = {
     val room = myRoomRepository.findByName(roomName)
 
@@ -63,20 +62,6 @@ class LocationController {
     } else {
       new ResponseEntity(Array.empty, HttpStatus.NOT_FOUND)
     }
-
-    /*
-    if (room != null && location != null) {
-      val components = {
-        for {
-          serialNo <- location.getSerialNos()
-          component = componentRepository findBySerialNo serialNo
-        } yield component
-      }
-      ResponseEntity.ok(components.toArray)
-    } else {
-      new ResponseEntity(Array.empty, HttpStatus.NOT_FOUND)
-    }
-    */
   }
 
   @RequestMapping(method = Array(RequestMethod.GET), value = Array("/rooms"))

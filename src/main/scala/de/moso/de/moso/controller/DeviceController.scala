@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation._
  * Created by sandro on 27.05.15.
  */
 @RestController
-@RequestMapping(Array("/myDevice"))
+@RequestMapping(Array("/device"))
 class DeviceController {
   @Autowired var myComponentRepository: IoTComponentRepository = _
 

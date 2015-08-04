@@ -37,48 +37,37 @@ public class AuthenticationFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = asHttp(request);
-        HttpServletResponse httpResponse = asHttp(response);
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
+        final HttpServletRequest httpRequest = asHttp(request);
+        final HttpServletResponse httpResponse = asHttp(response);
 
-        Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
-        Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
-        Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
+        final Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
+        final Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
+        final Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
 
         //String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
-        String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
-
-        /*
-        logger.trace("resourcePath:" + resourcePath);
-        logger.trace("getContextPath:" + new UrlPathHelper().getContextPath(httpRequest));
-        logger.trace("getRequestUri:" + new UrlPathHelper().getRequestUri(httpRequest));
-        logger.trace("getPathWithinServletMapping:" + new UrlPathHelper().getPathWithinServletMapping(httpRequest));
-        logger.trace("getOriginatingRequestUri:" + new UrlPathHelper().getOriginatingRequestUri(httpRequest));
-        logger.trace("getOriginatingContextPath:" + new UrlPathHelper().getOriginatingContextPath(httpRequest));
-        */
-        //resourcePath = resourcePath.replaceAll("//", "/");
-        //logger.trace("cleanup resourcePath:" + resourcePath);
+        final String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
 
         try {
             if ("OPTIONS".compareToIgnoreCase(httpRequest.getMethod())==0) {
                 return;
             }
-            logger.trace("OPTIONS passed.");
 
             if (postToAuthenticate(httpRequest, resourcePath)) {
-                logger.debug("Trying to authenticate user {} by X-Auth-Username method", username);
+                if (logger.isDebugEnabled())
+                    logger.debug("Trying to authenticate user {} by X-Auth-Username method", username);
                 processUsernamePasswordAuthentication(httpResponse, username, password);
                 return;
             }
-            logger.trace("postToAuthenticate passed.");
 
             if (token.isPresent()) {
-                logger.debug("Trying to authenticate user by X-Auth-Token method. Token: {}", token);
+                if (logger.isDebugEnabled())
+                    logger.debug("Trying to authenticate user by X-Auth-Token method. Token: {}", token);
                 processTokenAuthentication(token);
             }
-            logger.trace("token passed.");
 
-            logger.debug("AuthenticationFilter is passing request down the filter chain");
+            if (logger.isDebugEnabled())
+                logger.debug("AuthenticationFilter is passing request down the filter chain");
             addSessionContextToLogging();
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
@@ -99,7 +88,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            tokenValue = encoder.encodePassword(authentication.getDetails().toString(), "not_so_random_salt");
+            tokenValue = encoder.encodePassword(authentication.getDetails().toString(), "MeinEPi4$19%8;912Pü+ÜÄ");
         }
         MDC.put(TOKEN_SESSION_KEY, tokenValue);
 

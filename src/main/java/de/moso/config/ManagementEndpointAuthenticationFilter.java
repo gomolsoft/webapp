@@ -37,21 +37,24 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = asHttp(request);
-        HttpServletResponse httpResponse = asHttp(response);
+        final HttpServletRequest httpRequest = asHttp(request);
+        final HttpServletResponse httpResponse = asHttp(response);
 
-        Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
-        Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
+        final Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
+        final Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
 
-        String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
+        //final String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
+        final String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
 
         try {
             if (postToManagementEndpoints(resourcePath)) {
-                logger.debug("Trying to authenticate user {} for management endpoint by X-Auth-Username method", username);
+                if (logger.isDebugEnabled())
+                    logger.debug("Trying to authenticate user {} for management endpoint by X-Auth-Username method", username);
                 processManagementEndpointUsernamePasswordAuthentication(username, password);
             }
 
-            logger.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
+            if (logger.isDebugEnabled())
+                logger.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
             chain.doFilter(request, response);
         } catch (AuthenticationException authenticationException) {
             SecurityContextHolder.clearContext();

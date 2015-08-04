@@ -1,7 +1,12 @@
 package de.moso.de.moso.controller
 
+import java.security.Principal
+import java.util
+
 import de.moso.de.moso.repository.IoTComponentRepository
+import de.moso.entity.SensorModule
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 /**
@@ -18,8 +23,9 @@ class DeviceController {
     device
   }
 
+  @PreAuthorize("hasRole('ROLE_DOMAIN_USER')")
   @RequestMapping(value = Array("/devices"), produces = Array("application/json"), method = Array(RequestMethod.GET))
-  def allDevices = {
+  def allDevices(user: Principal): util.List[SensorModule] = {
     myComponentRepository findAll
   }
 

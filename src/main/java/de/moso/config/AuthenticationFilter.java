@@ -3,6 +3,7 @@ package de.moso.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -46,7 +47,11 @@ public class AuthenticationFilter extends GenericFilterBean {
         final Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
 
         //String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
-        final String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
+        String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
+        if (StringUtils.isEmpty(resourcePath.trim())) {
+            resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
+            resourcePath = resourcePath.replaceAll("//","/");
+        }
 
         try {
             if ("OPTIONS".compareToIgnoreCase(httpRequest.getMethod())==0) {

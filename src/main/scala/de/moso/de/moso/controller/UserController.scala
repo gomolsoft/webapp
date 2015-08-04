@@ -1,5 +1,7 @@
 package de.moso.de.moso.controller
 
+import java.security.Principal
+
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -12,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 class UserController {
 
 
-//  @RequestMapping(value = Array("login/{username}/{password}"), method = Array(RequestMethod.POST))
-//  def userLogin(@PathVariable("username") username: String, @PathVariable("password") password: String) = {
-//
-//  }
+  @RequestMapping(value = Array("/user"))
+  def  user(user: Principal): Principal = {
+    user
+  }
 
   @RequestMapping(value = Array("/authenticate"))
   def  authenticate() = {

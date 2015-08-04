@@ -19,8 +19,16 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        Optional<String> username = (Optional) authentication.getPrincipal();
-        Optional<String> password = (Optional) authentication.getCredentials();
+
+        final Optional<String> username;
+        final Optional<String> password;
+
+        try {
+            username = (Optional) authentication.getPrincipal();
+            password = (Optional) authentication.getCredentials();
+        } catch (Exception ex) {
+            throw new BadCredentialsException("Invalid authentication username/password Credentials");
+        }
 
         if (!username.isPresent() || !password.isPresent()) {
             throw new BadCredentialsException("Invalid Domain User Credentials");

@@ -54,6 +54,10 @@ dependencies {
 
     compile 'org.scala-lang:scala-library:2.11.7'
 
+    compile('net.sf.ehcache:ehcache-core:2.6.9') {
+        exclude group: 'commons-logging'
+    }
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

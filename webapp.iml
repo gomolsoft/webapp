@@ -7,9 +7,9 @@
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
           <root url="file://$MODULE_DIR$/src/main/scala" />
+          <root url="file://$MODULE_DIR$/src/main/java" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -95,5 +95,6 @@
     <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-config:3.2.7.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-web:3.2.7.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: org.springframework.security:spring-security-core:3.2.7.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: net.sf.ehcache:ehcache-core:2.6.9" level="project" />
   </component>
 </module>

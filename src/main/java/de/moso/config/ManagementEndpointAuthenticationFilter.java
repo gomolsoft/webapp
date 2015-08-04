@@ -89,7 +89,7 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Backend Admin for provided credentials");
         }
-        logger.debug("Backend Admin successfully authenticated");
+        logger.info("Backend Admin successfully authenticated");
         return responseAuthentication;
     }
 }

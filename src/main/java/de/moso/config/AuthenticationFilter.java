@@ -107,12 +107,12 @@ public class AuthenticationFilter extends GenericFilterBean {
         return "/authenticate".equalsIgnoreCase(resourcePath) && httpRequest.getMethod().equals("POST");
     }
 
-    private void processUsernamePasswordAuthentication(HttpServletResponse httpResponse, Optional<String> username, Optional<String> password) throws IOException {
-        Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
+    private void processUsernamePasswordAuthentication(final HttpServletResponse httpResponse, final Optional<String> username, final Optional<String> password) throws IOException {
+        final Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
         SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
         httpResponse.setStatus(HttpServletResponse.SC_OK);
-        TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
-        String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
+        final TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
+        final String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
         httpResponse.addHeader("Content-Type", "application/json");
         httpResponse.getWriter().print(tokenJsonResponse);
     }

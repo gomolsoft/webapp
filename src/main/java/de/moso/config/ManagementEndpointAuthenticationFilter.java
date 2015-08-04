@@ -31,7 +31,7 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
         this.authenticationManager = authenticationManager;
         this.managementEndpoints = new HashSet<>();
         this.managementEndpoints.add("/authenticate");
-        this.managementEndpoints.add("/device/devices");
+        //this.managementEndpoints.add("/device/devices");
 
     }
 

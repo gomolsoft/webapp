@@ -13,9 +13,9 @@
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <fileNamePattern>${user.home}/logs/spring_security_test.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${user.home}/Projekte/iot/logs/iotApi.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- keep 90 days' worth of history -->
-            <maxHistory>90</maxHistory>
+            <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
             <Pattern>.%d{HH:mm:ss.SSS} [%thread] [user="%X{user}" token="%X{token}"] %-5level %logger{36} - %msg %n
@@ -27,12 +27,12 @@
     </appender>
 
     <root>
-        <level value="TRACE" />
-        <appender-ref ref="consoleAppender" />
+        <level value="INFO" />
+        <!--appender-ref ref="consoleAppender" /-->
         <appender-ref ref="fileAppender" />
     </root>
 
-    <logger name="com.futreprocessing.spring" level="INFO" />
-    <logger name="org.springframework.boot.actuate.audit.listener" level="TRACE" />
-    <logger name="org.apache.http.client.protocol.RequestTargetAuthentication" level="TRACE" />
+    <logger name="de.moso.service" level="INFO" />
+    <logger name="org.springframework.boot.actuate.audit.listener" level="WARNING" />
+    <logger name="org.apache.http.client.protocol.RequestTargetAuthentication" level="INFO" />
 </configuration>

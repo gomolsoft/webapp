@@ -45,23 +45,38 @@ public class AuthenticationFilter extends GenericFilterBean {
         Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
 
-        String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
+        //String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
+        String resourcePath = new UrlPathHelper().getPathWithinServletMapping(httpRequest);
+
+        /*
+        logger.trace("resourcePath:" + resourcePath);
+        logger.trace("getContextPath:" + new UrlPathHelper().getContextPath(httpRequest));
+        logger.trace("getRequestUri:" + new UrlPathHelper().getRequestUri(httpRequest));
+        logger.trace("getPathWithinServletMapping:" + new UrlPathHelper().getPathWithinServletMapping(httpRequest));
+        logger.trace("getOriginatingRequestUri:" + new UrlPathHelper().getOriginatingRequestUri(httpRequest));
+        logger.trace("getOriginatingContextPath:" + new UrlPathHelper().getOriginatingContextPath(httpRequest));
+        */
+        //resourcePath = resourcePath.replaceAll("//", "/");
+        //logger.trace("cleanup resourcePath:" + resourcePath);
 
         try {
             if ("OPTIONS".compareToIgnoreCase(httpRequest.getMethod())==0) {
                 return;
             }
+            logger.trace("OPTIONS passed.");
 
             if (postToAuthenticate(httpRequest, resourcePath)) {
                 logger.debug("Trying to authenticate user {} by X-Auth-Username method", username);
                 processUsernamePasswordAuthentication(httpResponse, username, password);
                 return;
             }
+            logger.trace("postToAuthenticate passed.");
 
             if (token.isPresent()) {
                 logger.debug("Trying to authenticate user by X-Auth-Token method. Token: {}", token);
                 processTokenAuthentication(token);
             }
+            logger.trace("token passed.");
 
             logger.debug("AuthenticationFilter is passing request down the filter chain");
             addSessionContextToLogging();

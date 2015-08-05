@@ -72,8 +72,13 @@ public class AuthenticationFilter extends GenericFilterBean {
             }
 
             if (logger.isDebugEnabled())
-                logger.debug("AuthenticationFilter is passing request down the filter chain. ("+resourcePath+").");
+                logger.debug("AuthenticationFilter is passing request down the filter chain.");
+
             addSessionContextToLogging();
+
+            if (logger.isInfoEnabled())
+                logger.info("User is Authenicated for path {}", resourcePath);
+
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             SecurityContextHolder.clearContext();
